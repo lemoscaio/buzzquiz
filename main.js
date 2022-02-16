@@ -20,7 +20,7 @@ function printAllQuizzes(response) {
         let questions = quiz.questions;
         let levels = quiz.levels;
 
-        let quizTemplate = `<article class="quizzes__quiz quiz" id="${id}" onclick="slidePage()">
+        let quizTemplate = `<article class="quizzes__quiz quiz" id="${id}" onclick="openQuiz(this)">
         <img src="${image}" alt="Quizz image" class="quiz__image">
         <h3 class="quiz__title">${title}</h3>
     </article>`
@@ -51,6 +51,8 @@ function getQuiz(quizID) {
 function displayQuiz(response) {
     slidePage()
 
+    const quizPageEl = document.querySelector(".page-quiz")
+
     let quiz = response.data
 
     let id = quiz.id;
@@ -59,42 +61,45 @@ function displayQuiz(response) {
     let questions = quiz.questions;
     let levels = quiz.levels;
 
-    console.log(response.data)
 
-    const quizPageEl = document.querySelector(".page-quiz")
+    let templateQuizQuestions = ""
+    let templateQuizOptions = ""
 
+    questions.forEach(question => {
 
+        let options = question.answers
 
-    let templateQuiz = `<div class="quiz">
+        options.forEach(option => {
+            templateQuizOptions += `<div class="quiz__option">
+            <img class="quiz__option-image" src=${option.image} alt="">
+            <p class="quiz__option-text">${option.text}</p>
+            </div>`
+        })
+
+        templateQuizQuestions += `<article class="quiz__question">
+            <h5 class="quiz__question-text">${question.title}</h5>
+        <div class="quiz__options">
+                ${templateQuizOptions}
+            </div>
+        </article>`
+
+        templateQuizOptions = ""
+    })
+
+    let templateQuizGeneralInfo = `<div class="quiz">
 
     <section class="quiz__header">
         <img src="${image}" alt="Quiz image" class="quiz__header-image">
         <h4 class="quiz__header-title">${title}</h4>
     </section>
     <section class="quiz__questions questions">
-        <article class="quiz__question">
-            <h5 class="quiz__question-text">${questions[0].title}</h5>
-            <div class="quiz__options">
-                <div class="quiz__option">
-                    <img class="quiz__option-image" src=${questions[0].answers[0].image} alt="">
-                    <p class="quiz__option-text">${questions[0].answers[0].text}</p>
-                </div>
-                <div class="quiz__option">
-                    <img class="quiz__option-image" src="${questions[0].answers[1].image}" alt="">
-                    <p class="quiz__option-text">${questions[0].answers[1].text}</p>
-                </div>
-                
-            </div>
-        </article>
-        
-        
+        ${templateQuizQuestions}        
     </section>
 </div>`
 
-    quizPageEl.innerHTML += templateQuiz
+    quizPageEl.innerHTML += templateQuizGeneralInfo
 
 }
-
 
 // initializing functions
 getAllQuizzes()
