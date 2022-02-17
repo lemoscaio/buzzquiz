@@ -3,8 +3,12 @@
 $font-standard: "Roboto", sans-serif;
 
 $color-header: #ec362d;
+$color-button: #ec362d;
 $color-background: #fafafa;
 $color-title: white;
+$color-correct-answer: #009C22;
+$color-wrong-answer: #FF4B4B;
+$color-back-to-home: #818181;
 
 * {
     font-family: $font-standard;
@@ -179,7 +183,7 @@ body {
             padding: 25px;
         }
 
-        &__options {
+        &__answers {
             display: flex;
             flex-wrap: wrap;
 
@@ -188,15 +192,91 @@ body {
             margin-top: 15px;
         }
         
-        &__option {
+        &__answer {
             flex-basis: calc(50% - 6px);
         }
 
-        &__option-text {
+        &__answer-text {
             font-weight: 700;
             font-size: 13px;
             line-height: 15,23px;
             padding: 5px 0;
+        }
+
+        &__result {
+            display: flex;
+            flex-direction: column;
+
+            background-color: white;
+            
+            padding: 18px;
+            margin-bottom: 10px;
+
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        &__result-title {
+            background-color: #434CA0; //TEMPORÁRIO
+
+            text-align: center;
+            color: white;
+            font-weight: 700;
+            font-size: 19px;
+
+            padding: 30px 15px;
+        }
+
+        &__result-info {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 15px;
+        }
+
+        &__result-image {
+            height: 255px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        &__result-text {
+            font-weight: 700;
+            font-size: 17px;
+            line-height: 20px;
+            padding: 5px 0;
+        }
+
+        &__restart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            background-color: $color-background;
+        }
+
+        &__restart-button {
+            background-color: $color-button;
+
+            color: white;
+            font-size: 18px;
+            line-height: 21px;
+
+            border: none;
+            border-radius: 15px;
+            
+            max-width: 260px;
+            min-width: 220px;
+            padding: 13px;
+            margin-top: 34px;
+        }
+
+        &__restart-home {
+            color: $color-back-to-home;
+            font-size: 18px;
+            padding: 20px 0 80px;
         }
     }
 }
@@ -214,3 +294,16 @@ body {
 .hide--right {
     transform: translateX(100%);
 }
+
+.correct {
+    color: $color-correct-answer;
+}
+
+.wrong {
+    color: $color-wrong-answer;
+}
+
+.not-selected {
+    opacity: 30%;;
+}
+
