@@ -6,8 +6,8 @@ $color-header: #ec362d;
 $color-button: #ec362d;
 $color-background: #fafafa;
 $color-title: white;
-$color-correct-answer: #009C22;
-$color-wrong-answer: #FF4B4B;
+$color-correct-answer: #009c22;
+$color-wrong-answer: #ff4b4b;
 $color-back-to-home: #818181;
 
 * {
@@ -44,8 +44,11 @@ body {
 }
 
 .page {
-    margin-top: 69px; //TEMPORÁRIO
+    position: relative;
+    top: 69px; //TEMPORÁRIO
     background-color: $color-background;
+
+    height: calc(100% - 69px);
 
     &.page-quizzes {
         padding-top: 50px; //TEMPORÁRIO
@@ -66,6 +69,8 @@ body {
 
         .quiz {
             position: relative;
+
+            word-break: break-all;
 
             width: 340px;
             height: 181px;
@@ -109,6 +114,7 @@ body {
     }
 
     .quiz {
+        word-break: break-all;
 
         img {
             width: 100%;
@@ -136,7 +142,7 @@ body {
         &__header-image {
             height: 100%;
             width: 100%;
-            
+
             object-fit: cover;
             object-position: center 25%;
         }
@@ -154,10 +160,11 @@ body {
             font-size: 19px;
             font-weight: normal;
             line-height: 22px;
+
+            padding: 20px;
         }
 
         &__questions {
-            
         }
 
         &__question {
@@ -165,15 +172,15 @@ body {
             flex-direction: column;
 
             background-color: white;
-            
+
             padding: 18px;
             margin-bottom: 28px;
 
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
-
         }
+
         &__question-text {
-            background-color: #434CA0; //TEMPORÁRIO
+            background-color: #434ca0; //TEMPORÁRIO
 
             text-align: center;
             color: white;
@@ -186,20 +193,26 @@ body {
         &__answers {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
 
             gap: 12px;
 
             margin-top: 15px;
         }
-        
+
         &__answer {
             flex-basis: calc(50% - 6px);
+        }
+
+        &__answer-image {
+            height: 113px;
+            object-fit: cover;
         }
 
         &__answer-text {
             font-weight: 700;
             font-size: 13px;
-            line-height: 15,23px;
+            line-height: 15, 23px;
             padding: 5px 0;
         }
 
@@ -208,15 +221,19 @@ body {
             flex-direction: column;
 
             background-color: white;
-            
+
             padding: 18px;
             margin-bottom: 10px;
 
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+
+            &:empty {
+                display: none;
+            }
         }
 
         &__result-title {
-            background-color: #434CA0; //TEMPORÁRIO
+            background-color: #434ca0; //TEMPORÁRIO
 
             text-align: center;
             color: white;
@@ -266,7 +283,7 @@ body {
 
             border: none;
             border-radius: 15px;
-            
+
             max-width: 260px;
             min-width: 220px;
             padding: 13px;
@@ -297,13 +314,14 @@ body {
 
 .correct {
     color: $color-correct-answer;
+    pointer-events: none;
 }
 
 .wrong {
     color: $color-wrong-answer;
+    pointer-events: none;
 }
 
 .not-selected {
-    opacity: 30%;;
+    opacity: 30%;
 }
-
