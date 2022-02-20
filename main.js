@@ -160,3 +160,27 @@ function slidePage() {
 
 // initializing functions
 getAllQuizzes()
+
+
+function GoToCreateQuestions(){
+
+    document.querySelector(".basic-info__container").classList.add("hide");
+    document.querySelector(".Create-questions").classList.remove("hide");
+}
+function GoToCreateLevels(){
+    document.querySelector(".Create-questions").classList.add("hide");
+    document.querySelector(".Create-levels").classList.remove("hide");
+}
+function GotoCreantionEnd(){
+    document.querySelector(".Create-levels").classList.add("hide");
+    document.querySelector(".Creation-End").classList.remove("hide");
+}
+
+function botaoteste(){  
+    document.querySelector(".page-quizzes").classList.add("hide");
+    document.querySelector(".Create-Quiz").classList.remove("hide");
+
+}
+function Collapse(){
+
+}
