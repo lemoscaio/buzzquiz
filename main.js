@@ -77,10 +77,11 @@ function displayQuiz(response) {
         templateQuizAnswers = ""
     })
 
-    let templateQuizGeneralInfo = `<div class="quiz"><section class="quiz__header"><img src="${image}" alt="Quiz image" class="quiz__header-image"><h4 class="quiz__header-title">${title}</h4></section><section class="quiz__questions questions">${templateQuizQuestions}</section></div>`
+    let templateQuizGeneralInfo = `<div class="quiz"><section class="quiz__header"><img src="${image}" alt="Quiz image" class="quiz__header-image"><h4 class="quiz__header-title">${title}</h4></section><section class="quiz__questions questions">${templateQuizQuestions}</section></div><section class="quiz__result"></section><section class="quiz__restart"><button onclick="resetQuiz()" class="quiz__restart-button">Reiniciar Quizz</button><p class="quiz__restart-home" onclick="goToHome()">Voltar pra home</p>`
 
     quizPageEl.innerHTML += templateQuizGeneralInfo
 
+    document.querySelector(".quiz__header").scrollIntoView(false)
 }
 
 function clickCardAnswer(answer) {
@@ -102,7 +103,7 @@ function clickCardAnswer(answer) {
             }
         } else {
             siblingAnswerEl.classList.add("not-selected");
-            siblingAnswerEl.removeAttribute("onclick");
+
             if (siblingAnswerEl.getAttribute("data-iscorrectanswer") === "true") {
                 siblingAnswerEl.classList.add("correct");
             } else { siblingAnswerEl.classList.add("wrong"); }
@@ -113,14 +114,14 @@ function clickCardAnswer(answer) {
     // Scroll to next question after 2 seconds
     let questionEl = answer.parentNode.parentNode.nextElementSibling
     if (questionEl !== null) {
-        setTimeout(() => questionEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }),2000)
+        setTimeout(() => questionEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }), 50)
     }
 
     // Calls the result function when counter gets to total of questions
     if (counterAnswer === totalQuestions) {
         // Get the integer of the percentage
-        let fixedPercentage = correctAnswerPercentage.toFixed(0)
-        setTimeout(showResult, 2000, fixedPercentage)
+        let fixedPercentage = Math.ceil(correctAnswerPercentage)
+        setTimeout(showResult, 500, fixedPercentage)
     }
 }
 
@@ -131,26 +132,60 @@ function showResult(correctAnswerPercentage) {
 
     levels.forEach(level => {
         if (correctAnswerPercentage >= level.minValue) {
-            templateResult = `<section class="quiz__result">
-    <article class="quiz__result-card">
+            templateResult = `<article class="quiz__result-card">
         <h5 class="quiz__result-title">${correctAnswerPercentage}% de acerto: ${level.title}</h5>
         <div class="quiz__result-info">
             <img class="quiz__result-image" src=${level.image} alt="">
             <p class="quiz__result-text">${level.text}</p>
         </div>
     </article>
-</section>
-<section class="quiz__restart">
-                <button class="quiz__restart-button">Reiniciar Quizz</button>
-                <p class="quiz__restart-home">Voltar pra home</p>
-            </section>`}
+</section>`}
     })
 
-    const pageQuizEl = document.querySelector(".page-quiz")
+    const quizResultEl = document.querySelector(".quiz__result");
 
-    pageQuizEl.innerHTML += templateResult
-    pageQuizEl.lastChild.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
+    quizResultEl.innerHTML += templateResult;
+    quizResultEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
 }
+
+function resetQuiz() {
+    correctAnswerPercentage = 0;
+    eachAnswerPercentage = 0;
+    counterAnswer = 0;
+
+    const answerListEl = [...document.querySelectorAll(".quiz__answer")]
+
+    answerListEl.map((answerEl) => {
+        if (answerEl.classList.contains("not-selected")) {
+            answerEl.classList.remove("not-selected")
+        }
+        if (answerEl.classList.contains("wrong")) {
+            answerEl.classList.remove("wrong")
+        } else if (answerEl.classList.contains("correct")) {
+            answerEl.classList.remove("correct")
+        }
+    })
+
+    document.querySelector(".quiz__header").scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
+
+    const quizResultEl = document.querySelector(".quiz__result");
+
+    if (quizResultEl) {
+        setTimeout(() => {
+            quizResultEl.innerHTML = ""
+        }, 500)
+    }
+}
+
+function goToHome() {
+    resetQuiz();
+    slidePage();
+
+    const quizPageEl = document.querySelector(".page-quiz");
+
+    quizPageEl.innerHTML = "";
+}
+
 
 // Temporary functions (for test purposes only)
 function slidePage() {
