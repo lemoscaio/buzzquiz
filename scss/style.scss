@@ -18,6 +18,21 @@ $color-empy-quiz-border: #d5d5d5;
     }
 }
 
+.loader {
+    margin: 0 0 2em;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
+}
+svg path,
+svg rect {
+    fill: $color-header;
+}
+
 * {
     font-family: $font-standard;
     box-sizing: border-box;
@@ -234,7 +249,7 @@ body {
 
                 &::before {
                     content: "";
-                    background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.685) 30%, transparent 70%);
+                    background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.585) 30%, transparent 100%);
                     border-radius: 5px;
                     position: absolute;
                     bottom: 0;
@@ -251,8 +266,8 @@ body {
         .quiz {
             @include desktop-only() {
                 display: flex;
-            flex-direction: column;
-            align-items: center;
+                flex-direction: column;
+                align-items: center;
             }
 
             img {
@@ -305,7 +320,6 @@ body {
             }
 
             &__questions {
-                
                 @include desktop-only() {
                     display: flex;
                     flex-direction: column;

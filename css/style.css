@@ -1,4 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+.loader {
+  margin: 0 0 2em;
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  padding: 1em;
+  margin: 0 auto 1em;
+  display: inline-block;
+  vertical-align: top;
+}
+
+svg path,
+svg rect {
+  fill: #ec362d;
+}
+
 * {
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -185,7 +201,7 @@ body {
 }
 .page.page-quizzes .quizzes .quiz::before {
   content: "";
-  background: linear-gradient(to top, black 0%, rgba(0, 0, 0, 0.685) 30%, transparent 70%);
+  background: linear-gradient(to top, black 0%, rgba(0, 0, 0, 0.585) 30%, transparent 100%);
   border-radius: 5px;
   position: absolute;
   bottom: 0;

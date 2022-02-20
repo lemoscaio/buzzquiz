@@ -1,4 +1,5 @@
-1<!DOCTYPE html>
+1
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -9,17 +10,29 @@
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
     <header class="header">
         <h1 class="header__title" onclick="goToHome()">BuzzQuizz</h1>
     </header>
     <main class="page page-quizzes">
         <!-- User quizzes -->
-        <div class="quizzes hide">
+        <div class="quizzes" data-quizzes="userQuizzes">
             <div class="quizzes__title-container">
                 <h2 class="quizzes__title">Seus Quizzes</h2>
                 <button class="quizzes__create-quizz--small" onclick="createQuiz()">+</button>
+            </div>
+            <div class="loading hide">
+                <div class="loader loader--style3" title="2">
+                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
+                        viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                        <path fill="#000"
+                            d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                            <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                        </path>
+                    </svg>
+                </div>
             </div>
             <section class="quizzes__user-quizzes">
                 <article class="quizzes__user-empty">
@@ -45,9 +58,22 @@
             </section>
         </div>
         <!-- All quizes -->
-        <div class="quizzes">
+        <div class="quizzes" data-quizzes="allQuizzes">
             <div class="quizzes__title-container">
                 <h2 class="quizzes__title">Todos os Quizzes</h2>
+            </div>
+            <div class="loading hide">
+                <div class="loader loader--style3" title="2">
+                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
+                        viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                        <path fill="#000"
+                            d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                            <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                        </path>
+                    </svg>
+                </div>
             </div>
             <section class="quizzes__all-quizzes">
                 <!-- Added with javascript -->
@@ -57,7 +83,6 @@
     <main class="page page-quiz hide">
         <!-- Added with javascript -->
     </main>
-
     <!-- Bibliotecas -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Javascript -->
