@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+1<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -12,19 +12,48 @@
 
 <body>
     <header class="header">
-        <h1 class="header__title">BuzzQuizz</h1>
+        <h1 class="header__title" onclick="goToHome()">BuzzQuizz</h1>
     </header>
     <main class="page page-quizzes">
-        <div class="quizzes">
+        <!-- User quizzes -->
+        <div class="quizzes hide">
+            <div class="quizzes__title-container">
+                <h2 class="quizzes__title">Seus Quizzes</h2>
+                <button class="quizzes__create-quizz--small" onclick="createQuiz()">+</button>
+            </div>
             <section class="quizzes__user-quizzes">
+                <article class="quizzes__user-empty">
+                    <p class="quizzes__empty-message">Você não criou nenhum quizz ainda :(</p>
+                    <button class="quizzes__create-quizz" onclick="createQuiz()">Criar Quizz</button>
+                </article>
+                <article class="quizzes__quiz quiz">
+                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                </article>
+                <article class="quizzes__quiz quiz">
+                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                </article>
+                <article class="quizzes__quiz quiz">
+                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                </article>
+                <article class="quizzes__quiz quiz">
+                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                </article>
             </section>
-            <section class="quizzes__all-quizzes">
+        </div>
+        <!-- All quizes -->
+        <div class="quizzes">
+            <div class="quizzes__title-container">
                 <h2 class="quizzes__title">Todos os Quizzes</h2>
+            </div>
+            <section class="quizzes__all-quizzes">
                 <!-- Added with javascript -->
             </section>
         </div>
     </main>
-
     <main class="page page-quiz hide">
         <!-- Added with javascript -->
     </main>

@@ -81,7 +81,7 @@ function displayQuiz(response) {
 
     quizPageEl.innerHTML += templateQuizGeneralInfo
 
-    document.querySelector(".quiz__header").scrollIntoView({ behavior: "auto", block: "center", inline: "nearest" })
+    document.querySelector(".quiz__header").scrollIntoView(false)
 }
 
 function clickCardAnswer(answer) {
@@ -114,14 +114,14 @@ function clickCardAnswer(answer) {
     // Scroll to next question after 2 seconds
     let questionEl = answer.parentNode.parentNode.nextElementSibling
     if (questionEl !== null) {
-        setTimeout(() => questionEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }), 2000)
+        setTimeout(() => questionEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }), 50)
     }
 
     // Calls the result function when counter gets to total of questions
     if (counterAnswer === totalQuestions) {
         // Get the integer of the percentage
         let fixedPercentage = Math.ceil(correctAnswerPercentage)
-        setTimeout(showResult, 2000, fixedPercentage)
+        setTimeout(showResult, 500, fixedPercentage)
     }
 }
 
@@ -145,7 +145,7 @@ function showResult(correctAnswerPercentage) {
     const quizResultEl = document.querySelector(".quiz__result");
 
     quizResultEl.innerHTML += templateResult;
-    quizResultEl.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    quizResultEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
 }
 
 function resetQuiz() {
