@@ -44,6 +44,19 @@ svg rect {
     bottom: 0;
 }
 
+.loading--card {
+    transition: all 0.2s;
+    background-color: rgba(255, 255, 255, 0.95);
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
 * {
     font-family: $font-standard;
     box-sizing: border-box;
@@ -52,6 +65,10 @@ svg rect {
 
 body {
     background-color: $color-background;
+}
+
+button {
+    cursor: pointer;
 }
 
 .header {
@@ -80,7 +97,7 @@ body {
 
 .page {
     position: relative;
-    top: 69px; //TEMPORÁRIO
+    top: 69px; 
     background-color: $color-background;
 
     height: calc(100% - 69px);
@@ -120,6 +137,10 @@ body {
                     grid-template-columns: repeat(3, 1fr);
                     gap: 12px;
                 }
+
+                &::empty {
+                    display: none;
+                }
             }
 
             &__user-empty {
@@ -134,7 +155,6 @@ body {
                 border-radius: 5px;
 
                 padding: 40px;
-                margin: 0 0 35px; //TEMPORÁRIO
 
                 &.hide {
                     display: none;
@@ -143,7 +163,6 @@ body {
                 @include desktop-only() {
                     grid-column-start: 1;
                     grid-column-end: 4;
-                    margin: 0 0 35px;
                 }
             }
 
@@ -165,6 +184,12 @@ body {
                 width: 100%;
 
                 margin-bottom: 15px;
+
+                &.hide {
+                    display: none;
+                }
+
+
 
                 @include desktop-only() {
                     justify-content: flex-start;
@@ -278,8 +303,9 @@ body {
 
                 &.user-quiz {
                     .modify-icons {
-                        transform: translateX(0%);
-                        width: 0%;
+                        transform: translateX(0.5%);
+                        width: 0;
+                        pointer-events: none;
                         transition: width 0.2s;
                         background-color: $color-button;
                         display: flex;
@@ -300,8 +326,17 @@ body {
 
                 &.user-quiz:hover {
                     .modify-icons {
+                        pointer-events: all;
                         transform: translateX(0%);
                         width: 12%;
+                        &__edit-icon {
+                            display: block;
+                            cursor: pointer;
+                        }
+                        &__delete-icon {
+                            display: block;
+                            cursor: pointer;
+                        }
                     }
                 }
             }
@@ -391,7 +426,7 @@ body {
             }
 
             &__question-text {
-                background-color: #434ca0; //TEMPORÁRIO
+                background-color: #434ca0;
 
                 text-align: center;
                 color: white;
@@ -408,15 +443,15 @@ body {
             &__answers {
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: center;
+                justify-content: space-between;
 
-                gap: 12px;
+                // gap: 12px;
 
                 margin-top: 15px;
             }
 
             &__answer {
-                width: 25%;
+                width: 49%; // TEMPORÁRIO
             }
 
             &__answer-image {
@@ -461,7 +496,7 @@ body {
             }
 
             &__result-title {
-                background-color: #434ca0; //TEMPORÁRIO
+                background-color: #434ca0; 
 
                 text-align: center;
                 color: white;
@@ -728,4 +763,8 @@ body {
 
 .not-selected {
     opacity: 30%;
+}
+
+.clickable {
+    cursor: pointer;
 }

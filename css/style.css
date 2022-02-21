@@ -26,6 +26,19 @@ svg rect {
   bottom: 0;
 }
 
+.loading--card {
+  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0.95);
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
 * {
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -34,6 +47,10 @@ svg rect {
 
 body {
   background-color: #fafafa;
+}
+
+button {
+  cursor: pointer;
 }
 
 .header {
@@ -99,6 +116,9 @@ body {
     gap: 12px;
   }
 }
+.page.page-quizzes .quizzes__user-quizzes::empty {
+  display: none;
+}
 .page.page-quizzes .quizzes__user-empty {
   display: flex;
   flex-direction: column;
@@ -108,7 +128,6 @@ body {
   border: 1px dashed #d5d5d5;
   border-radius: 5px;
   padding: 40px;
-  margin: 0 0 35px;
 }
 .page.page-quizzes .quizzes__user-empty.hide {
   display: none;
@@ -117,7 +136,6 @@ body {
   .page.page-quizzes .quizzes__user-empty {
     grid-column-start: 1;
     grid-column-end: 4;
-    margin: 0 0 35px;
   }
 }
 .page.page-quizzes .quizzes__empty-message {
@@ -134,6 +152,9 @@ body {
   align-items: center;
   width: 100%;
   margin-bottom: 15px;
+}
+.page.page-quizzes .quizzes__title-container.hide {
+  display: none;
 }
 @media screen and (min-width: 1000px) {
   .page.page-quizzes .quizzes__title-container {
@@ -223,8 +244,9 @@ body {
   z-index: 1;
 }
 .page.page-quizzes .quizzes .quiz.user-quiz .modify-icons {
-  transform: translateX(0%);
-  width: 0%;
+  transform: translateX(0.5%);
+  width: 0;
+  pointer-events: none;
   transition: width 0.2s;
   background-color: #ec362d;
   display: flex;
@@ -242,8 +264,17 @@ body {
   padding: 10px 10px 10px 12px;
 }
 .page.page-quizzes .quizzes .quiz.user-quiz:hover .modify-icons {
+  pointer-events: all;
   transform: translateX(0%);
   width: 12%;
+}
+.page.page-quizzes .quizzes .quiz.user-quiz:hover .modify-icons__edit-icon {
+  display: block;
+  cursor: pointer;
+}
+.page.page-quizzes .quizzes .quiz.user-quiz:hover .modify-icons__delete-icon {
+  display: block;
+  cursor: pointer;
 }
 @media screen and (min-width: 1000px) {
   .page.page-quiz .quiz {
@@ -328,12 +359,11 @@ body {
 .page.page-quiz .quiz__answers {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
   margin-top: 15px;
 }
 .page.page-quiz .quiz__answer {
-  width: 25%;
+  width: 49%;
 }
 .page.page-quiz .quiz__answer-image {
   height: 113px;
@@ -582,6 +612,10 @@ body {
 
 .not-selected {
   opacity: 30%;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */
