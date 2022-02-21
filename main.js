@@ -120,7 +120,7 @@ function displayQuiz(response) {
         let answers = question.answers.sort(() => Math.random() - 0.5);
 
         answers.forEach(answer => {
-            templateQuizAnswers += `<div class="quiz__answer" data-identifier="answer" onclick="clickCardAnswer(this)" data-isCorrectAnswer="${answer.isCorrectAnswer}"><img class="quiz__answer-image" src=${answer.image} alt=""><p class="quiz__answer-text">${answer.text}</p></div>`;
+            templateQuizAnswers += `<div class="quiz__answer clickable" data-identifier="answer" onclick="clickCardAnswer(this)" data-isCorrectAnswer="${answer.isCorrectAnswer}"><img class="quiz__answer-image" src=${answer.image} alt=""><p class="quiz__answer-text">${answer.text}</p></div>`;
         })
 
         templateQuizQuestions += `<article class="quiz__question" data-identifier="question" id="${" question-" + questions.indexOf(question)}"><h5 class="quiz__question-text" style="background-color:${question.color}" >${question.title}</h5><div class="quiz__answers">${templateQuizAnswers}</div></article>`;
