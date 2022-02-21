@@ -434,7 +434,7 @@ function goToCreationEnd() {
     document.querySelector(".create-quiz__quiz-summary").classList.remove("hide");
 }
 
-
+// Impedir atualização automatica do forms
 function preventElements(event) {
     event.preventDefault()
 }
@@ -448,7 +448,9 @@ document.getElementById("questionForm").addEventListener("submit", function (eve
 document.getElementById("levelForm").addEventListener("submit", function (event) {
     event.preventDefault();
 })
+// rendezirando paginas dinamicas da Criação de quiz
 
+// Pagina de Questoes 
 function createContainerQuestion() {
     let number = document.getElementById("qInput").value
     let htmlResute = ""
@@ -501,6 +503,7 @@ function createContainerQuestion() {
     goToCreateQuestions()
 }
 
+// pagina de niveis
 function createLevelQuiz() {
     let number = document.getElementById("nInput").value
     let htmlResute = ""
@@ -530,7 +533,7 @@ function createLevelQuiz() {
 
     goToCreateLevels()
 }
-
+// função para enviar quizz ao servidor
 function saveAndGoToEnd() {
     let questionNumber = document.getElementById("qInput").value
     let levelNumber = document.getElementById("nInput").value
@@ -539,7 +542,7 @@ function saveAndGoToEnd() {
 
     const questions = []
     const levels = []
-
+// question post
     for (let qIndex = 0; qIndex < questionNumber; qIndex++) {
         const title = document.getElementById(`title_${qIndex}`).value;
         const color = document.getElementById(`color_${qIndex}`).value;
@@ -580,7 +583,7 @@ function saveAndGoToEnd() {
 
         questions.push(question)
     }
-
+//level post
     for (let nIndex = 0; nIndex < levelNumber; nIndex++) {
         const level = {
             title: document.getElementById(`level-title_${nIndex}`).value,
@@ -591,7 +594,7 @@ function saveAndGoToEnd() {
 
         levels.push(level);
     }
-
+// objeto a ser enviado
     const quiz = {
         title: quizTitle,
         image: quizImage,
@@ -612,7 +615,7 @@ function saveAndGoToEnd() {
             console.log(error)
         })
 }
-
+// collapse
 function Collapse(indice, type) {
     console.log(indice, type)
     const item = document.getElementById(`${type}_item_${indice}`)
@@ -626,3 +629,131 @@ function Collapse(indice, type) {
     else
         icon.classList.add("hide")
 }
+
+
+// Validações
+function isValidURL() {
+    const url = document.getElementById("quizImage").value
+    var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    return (res !== null)
+  };
+
+ function ValidationColor() {
+     let number = document.getElementById("qInput").value
+     const regex = /#([0-9a-fA-F]{6})/g
+     for (i = 0; i < number; i++){
+
+         const color = document.getElementById(`color_${i}`).value
+         if(color.match(regex)==null){
+             return false
+         }
+      
+
+     }
+     return true
+ }
+
+ function ValidationNumber(){
+    const question = document.getElementById("qInput").value
+    const level = document.getElementById("nInput").value
+    if(question<3 || level<2){
+        return false
+    }
+    return true
+ }
+
+ function ValidationQuizTitle(){
+    const title = document.getElementById("quizTitle").value
+    if(title<20 || title>65){
+        return false
+    }
+    return true
+ }
+
+ function ValidationQuestiontitle(){
+    let number = document.getElementById("qInput").value
+    for (i = 0; i < number; i++){
+        const title = document.getElementById(`title_${i}`).value
+        if(title<20){
+            return false
+        }
+    }
+    return true
+ }
+ function ValidationLeveltitle(){
+    let number = document.getElementById("nInput").value
+    for (i = 0; i < number; i++){
+        const title = document.getElementById(`level-title_${i}`).value
+        if(title<10){
+            return false
+        }
+    }
+    return true
+ }
+ function ValidationLeveltext(){
+    let number = document.getElementById("nInput").value
+    for (i = 0; i < number; i++){
+        const text = document.getElementById(`level-text_${i}`).value
+        if(text<30){
+            return false
+        }
+    }
+    return true
+ }
+ function ValidationLevelValue(){
+    let number = document.getElementById("nInput").value
+    const maxValue = document.getElementById(`level-minValue_${number - 1}`).value
+    for (i = 0; i < number; i++){
+        const minValue = document.getElementById(`level-minValue_${i}`).value
+        if(minValue > 100 || maxValue !== 0){
+            return false
+        }
+
+    }
+    return true
+ }
+ function isValidURLimageQR() {
+     let number = document.getElementById("qInput").value
+     for (i = 0; i < number; i++){
+        const url = document.getElementById(`right_answer_image_${i}`).value
+
+        var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        return (res !== null)
+    }
+    
+  };
+  function isValidURLimageQW() {
+    let number = document.getElementById("qInput").value
+    for (i = 0; i < number; i++){
+       const url = document.getElementById(`wrong_answer_image_${i}`).value
+
+       var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+       return (res !== null)
+    }
+   
+ };
+
+ function ValidationBasicInfo(){
+     if(ValidationQuizTitle() && isValidURL() && ValidationNumber()){
+        createContainerQuestion()
+     }
+     else{
+         alert ("Erro!")
+     }
+
+
+ }
+
+ function ValidationQuestionCreation(){
+     if(ValidationQuestiontitle() && ValidationColor() && isValidURLimageQR() && isValidURLimageQW()){
+        createLevelQuiz()
+     }
+     else{
+        alert ("Erro!")
+     }
+
+ }
+
+ function ValidationLevelCreation(){
+
+ }
