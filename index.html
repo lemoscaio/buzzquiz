@@ -44,55 +44,8 @@
             </article>
             <!-- User quizzes -->
             <section class="quizzes__user-quizzes">
-                <!-- Quiz -->
-                <article class="quizzes__quiz quiz user-quiz" data-userQuiz="true">
-                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
-                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
-                    <!-- Modify icons -->
-                    <div class="quiz__modify-icons modify-icons">
-                        <img class="modify-icons__edit-icon" onclick="editQuiz(this), event.stopPropagation()" src="images/icons/edit-white.svg"
-                            alt="Edit icon">
-                        <img class="modify-icons__delete-icon" onclick="deleteQuiz(this)"
-                            src="images/icons/delete-white.svg" alt="Delete icon">
-                    </div>
-                </article>
-                <!-- Quiz -->
-                <article class="quizzes__quiz quiz user-quiz" data-userQuiz="true">
-                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
-                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
-                    <!-- Modify icons -->
-                    <div class="quiz__modify-icons modify-icons">
-                        <img class="modify-icons__edit-icon" 
-                        " src="images/icons/edit-white.svg"
-                            alt="Edit icon">
-                        <img class="modify-icons__delete-icon" onclick="deleteQuiz(this)"
-                            src="images/icons/delete-white.svg" alt="Delete icon">
-                    </div>
-                </article>
-                <!-- Quiz -->
-                <article class="quizzes__quiz quiz user-quiz" data-userQuiz="true">
-                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
-                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
-                    <!-- Modify icons -->
-                    <div class="quiz__modify-icons modify-icons">
-                        <img class="modify-icons__edit-icon" onclick="editQuiz(this)" src="images/icons/edit-white.svg"
-                            alt="Edit icon">
-                        <img class="modify-icons__delete-icon" onclick="deleteQuiz(this)"
-                            src="images/icons/delete-white.svg" alt="Delete icon">
-                    </div>
-                </article>
-                <!-- Quiz -->
-                <article class="quizzes__quiz quiz user-quiz" data-userQuiz="true">
-                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
-                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
-                    <!-- Modify icons -->
-                    <div class="quiz__modify-icons modify-icons">
-                        <img class="modify-icons__edit-icon" onclick="editQuiz(this)" src="images/icons/edit-white.svg"
-                            alt="Edit icon">
-                        <img class="modify-icons__delete-icon" onclick="deleteQuiz(this)"
-                            src="images/icons/delete-white.svg" alt="Delete icon">
-                    </div>
-                </article>
+                <!-- Added with javaScript -->
+                
             </section>
         </div>
         <!-- All quizes -->
@@ -133,15 +86,15 @@
                         <p>Comece pelo começo</p>
                     </div>
                     <div class="create-quiz__info">
-                        <input id="quizTitle" class="create-quiz__title-input input" type="text" required minlength="20" maxlength="65"
-                            placeholder="Título do seu quizz" name="input">
-    
+                        <input id="quizTitle" class="create-quiz__title-input input" type="text" required minlength="20"
+                            maxlength="65" placeholder="Título do seu quizz" name="input">
+
                         <input id="quizImage" class="create-quiz__image-input input" required type="url"
                             placeholder="URL da imagem do seu quizz" name="input">
-    
+
                         <input class="create-quiz__questions-qty-input  input" type="number" required min="3"
                             placeholder="Quantidade de perguntas do seu quizz" name="input" id="qInput">
-    
+
                         <input class="create-quiz__levels-qty-input  input" type="number" required min="2"
                             placeholder="Quantidade de níveis do seu quizz" name="input" id="nInput">
                     </div>
@@ -156,7 +109,7 @@
                 <h2 class="create-quiz__page-title">
                     <p>Crie suas perguntas</p>
                 </h2>
-              
+
                 <form onsubmit="createLevelQuiz()" id="questionForm">
                     <div>
                         <div id="questionContainer">
@@ -175,7 +128,7 @@
                     <p>Agora, decida os níveis!</p>
                 </h2>
                 <!-- Level 1 -->
-                
+
                 <form onsubmit="saveAndGoToEnd()" id="levelForm">
                     <div>
                         <div id="levelContainer">
@@ -225,4 +178,5 @@
     <!-- Javascript -->
     <script src="main.js"></script>
 </body>
+
 </html>

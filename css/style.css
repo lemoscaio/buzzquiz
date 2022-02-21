@@ -26,6 +26,19 @@ svg rect {
   bottom: 0;
 }
 
+.loading--card {
+  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0.95);
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
 * {
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -333,7 +346,7 @@ body {
   margin-top: 15px;
 }
 .page.page-quiz .quiz__answer {
-  width: 25%;
+  width: 49.1%;
 }
 .page.page-quiz .quiz__answer-image {
   height: 113px;

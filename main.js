@@ -5,6 +5,7 @@ let correctAnswerPercentage = 0;
 let eachAnswerPercentage = 0;
 
 let quiz = null
+let userQuizzes = []
 
 let counterAnswer = 0
 
@@ -15,6 +16,7 @@ function getAllQuizzes() {
     let promise = axios.get(API_BUZZQUIZZ);
 
     showLoading("allQuizzes");
+    showLoading("userQuizzes");
 
     // SetTimeout only for demonstration purposes (loading animation)
     setTimeout(() => { promise.then(printAllQuizzes) }, 1500);
@@ -22,8 +24,11 @@ function getAllQuizzes() {
 
 function printAllQuizzes(response) {
     hideLoading("allQuizzes")
+    hideLoading("userQuizzes")
 
     let quizzesList = response.data;
+
+    quizzesList = quizzesList.filter(filterUserQuizzes);
 
     const allQuizzesEl = document.querySelector(".quizzes__all-quizzes")
     allQuizzesEl.innerHTML = ""
@@ -41,29 +46,60 @@ function printAllQuizzes(response) {
         allQuizzesEl.innerHTML += quizTemplate
     });
 
+    printUserQuizzes()
 }
 
-function getUserQuizzes() {
-    let promise = axios.get(API_BUZZQUIZZ);
+function filterUserQuizzes(quiz) {
+    if (localStorage.getItem(quiz.id.toString())) {
+        userQuizzes.push(quiz)
+        return false
+    } else {
+        return true
+    }
+}
 
-    showLoading("userQuizzes");
+function printUserQuizzes() {
+    const userQuizzesEl = document.querySelector(".quizzes__user-quizzes")
 
-    // SetTimeout only for demonstration purposes (loading animation)
-    setTimeout(() => { promise.then(printAllQuizzes) }, 1500);
+    userQuizzesEl.innerHTML = ""
+
+    userQuizzes.forEach(quiz => {
+        let title = quiz.title;
+        let image = quiz.image;
+        let id = quiz.id;
+
+        let userQuizTemplate = `<article class="quizzes__quiz quiz user-quiz" id="${id}"  data-userQuiz="true" onclick="openQuiz(this)"><img src=${image} alt="Quiz image" class="quiz__image"><h3 class="quiz__title">${title}</h3><div class="quiz__modify-icons modify-icons"><img class="modify-icons__edit-icon" onclick="editQuiz(this), event.stopPropagation()" src="images/icons/edit-white.svg" alt="Edit icon"><img class="modify-icons__delete-icon" onclick="deleteQuiz(this), event.stopPropagation()" src="images/icons/delete-white.svg" alt="Delete icon"></div><div class="loading loading--card hide">
+        <div class="loader loader--style3" title="2">
+            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
+                viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                <path fill="#000"
+                    d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                        from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+    </div></article>`
+
+        userQuizzesEl.innerHTML += userQuizTemplate
+    })
+
+    userQuizzes = []
 }
 
 function openQuiz(quiz) {
     let quizID = quiz.id;
     showLoadingPage();
-    
+
     // SetTimeout only for demonstration purposes (loading animation)
     let promise = axios.get(API_BUZZQUIZZ + `/${quizID}`)
-    setTimeout(() => {promise.then(displayQuiz)}, 500);
+    setTimeout(() => { promise.then(displayQuiz) }, 500);
 }
 
 function displayQuiz(response) {
     changePage("page-quizzes", "page-quiz")
-    
+
     hideLoadingPage()
     const quizPageEl = document.querySelector(".page-quiz")
 
@@ -84,7 +120,7 @@ function displayQuiz(response) {
             templateQuizAnswers += `<div class="quiz__answer" onclick="clickCardAnswer(this)" data-isCorrectAnswer="${answer.isCorrectAnswer}"><img class="quiz__answer-image" src=${answer.image} alt=""><p class="quiz__answer-text">${answer.text}</p></div>`
         })
 
-        templateQuizQuestions += `<article class="quiz__question" id="${"question-" + questions.indexOf(question)}"><h5 class="quiz__question-text">${question.title}</h5><div class="quiz__answers">${templateQuizAnswers}</div></article>`
+        templateQuizQuestions += `<article class="quiz__question" id="${" question-" + questions.indexOf(question)}"><h5 class="quiz__question-text" style="background-color:${question.color}" >${question.title}</h5><div class="quiz__answers">${templateQuizAnswers}</div></article>`
 
         templateQuizAnswers = ""
     })
@@ -191,19 +227,23 @@ function goToHome() {
     getAllQuizzes()
     resetQuiz();
     changePage("page-quiz", "page-quizzes");
-    
+
     const quizPageEl = document.querySelector(".page-quiz");
 
     quizPageEl.innerHTML = "";
 }
 
-function showLoadingPage(parentDivEl) {
-    document.querySelector(".loading--page.hide").classList.remove("hide")
-}
-
 function showLoading(dataAttribute) {
     let parentDiv = (document.querySelector("[data-quizzes=" + dataAttribute + "]"))
     parentDiv.querySelector(".loading.hide").classList.remove("hide")
+}
+
+function showLoadingPage() {
+    document.querySelector(".loading--page.hide").classList.remove("hide")
+}
+
+function showLoadingCard() {
+    document.querySelector(".loading--card.hide").classList.remove("hide")
 }
 
 function hideLoading(dataAttribute) {
@@ -215,10 +255,9 @@ function hideLoadingPage() {
     document.querySelector(".loading--page").classList.add("hide")
 }
 
-function empty() {
+function hideLoadingCard() {
+    document.querySelector(".loading--card").classList.add("hide")
 }
-
-
 
 function changePage(pageOut, pageIn) {
     document.querySelector("." + pageOut).classList.toggle("hide")
@@ -232,7 +271,7 @@ let dados = null
 let quizzDoCaio = {}
 let quizID = null
 
-function createQuiz() {
+function createQuizCaio() {
     quizzDoCaio = {
         title: "Título do quizz (eeee)",
         image: "https://http.cat/411.jpg",
@@ -303,11 +342,14 @@ function createQuiz() {
     }
 
     axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", quizzDoCaio).then((response) => {
-        console.log(response)
-        resposta = response
-        dados = resposta.data
-        quizID = dados.id
-        localStorage.setItem("chave", dados.key)
+        let quizInString = JSON.stringify(quizzDoCaio)
+        localStorage.setItem(response.data.id.toString(), quizInString)
+        let secretKey = "id" + response.data.id.toString()
+        localStorage.setItem(secretKey, response.data.key.toString()
+        )
+    }).catch((error) => {
+        alert("Deu erro")
+        console.log(error)
     })
 }
 
@@ -315,26 +357,39 @@ function editQuiz(quizID) {
     alert("soon you'll be able to edit the quiz")
 }
 
-function deleteQuiz(quizID) {
+function deleteQuiz(iconEl) {
+    let quizEl = iconEl.parentNode.parentNode
+    let quizID = quizEl.getAttribute("id")
+
     let deleteAnswer = prompt("Do you really want to delete this quiz? Y for Yes / N for No")
 
     if (deleteAnswer !== "Y") return
 
-    alert("soon you'll be able to delete the quiz")
-
     const deleteQuiz = axios.create({
-        headers: { "Secret-Key": localStorage.getItem("chave") }
+        headers: { "Secret-Key": localStorage.getItem("id" + quizID) }
     })
 
-    deleteQuiz.delete("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + quizID)
+    let promise = deleteQuiz.delete("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + quizID)
+    showLoadingCard()
 
+    localStorage.removeItem("id" + quizID)
+    localStorage.removeItem(quizID)
+
+    setTimeout(() => {
+        promise.then(() => {
+            hideLoadingCard()
+            quizEl.remove()
+        }).catch((error) => { console.log(error) })
+    }, 1500)
 }
-
-
 
 // initializing functions
 getAllQuizzes()
 
+function createQuiz() {
+    document.querySelector(".page-quizzes").classList.add("hide");
+    document.querySelector(".page-create-quiz").classList.remove("hide");
+}
 
 function goToCreateQuestions() {
     document.querySelector(".create-quiz__basic-info").classList.add("hide");
@@ -349,11 +404,6 @@ function goToCreationEnd() {
     document.querySelector(".create-quiz__quiz-summary").classList.remove("hide");
 }
 
-function botaoteste() {
-    document.querySelector(".page-quizzes").classList.add("hide");
-    document.querySelector(".Create-Quiz").classList.remove("hide");
-
-}
 
 function preventElements(event) {
     event.preventDefault()
@@ -487,9 +537,9 @@ function saveAndGoToEnd() {
         }
 
         const answers = [rightAnswer, firstWrongAnswer];
-        if(secondWrongAnswer.text !== "" && secondWrongAnswer.image !== "")
+        if (secondWrongAnswer.text !== "" && secondWrongAnswer.image !== "")
             answers.push(secondWrongAnswer)
-        if(thirdWrongAnswer.text !== "" && thirdWrongAnswer.image !== "")
+        if (thirdWrongAnswer.text !== "" && thirdWrongAnswer.image !== "")
             answers.push(thirdWrongAnswer)
 
         let question = {
@@ -520,11 +570,18 @@ function saveAndGoToEnd() {
     }
 
     axios.post(API_BUZZQUIZZ, quiz)
-        .then(goToCreationEnd).catch(() => alert("Deu erro"))
-
+        .then((response) => {
+            let quizInString = JSON.stringify(quiz)
+            localStorage.setItem(response.data.id.toString(), quizInString)
+            let secretKey = "id" + response.data.id.toString()
+            localStorage.setItem(secretKey, response.data.key.toString()
+            )
+            goToCreationEnd()
+        }).catch((error) => {
+            alert("Deu erro")
+            console.log(error)
+        })
 }
-
-
 
 function Collapse() {
 
