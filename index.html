@@ -14,6 +14,7 @@
     <header class="header">
         <h1 class="header__title" onclick="goToHome()">BuzzQuizz</h1>
     </header>
+    <!-- All quizzes page -->
     <main class="page page-quizzes">
         <!-- User quizzes -->
         <div class="quizzes" data-quizzes="userQuizzes">
@@ -80,81 +81,252 @@
             </section>
         </div>
     </main>
+    <!-- Quiz page -->
     <main class="page page-quiz hide">
         <!-- Added with javascript -->
     </main>
 
-    <!-- Criação de quizz -->
-    <div class="page page-create-quiz Create-Quiz">
+    <!-- Quiz creation page -->
+    <main class="page page-create-quiz hide">
 
-        <!-- Informações basicas -->
-        <div class="page basic-info">
+        <div class="create-quiz">
+            <!-- Basic info -->
+            <div class="create-quiz__basic-info">
+                <div class="create-quiz__page-title">
+                    <p>Comece pelo começo</p>
+                </div>
+                <div class="create-quiz__info">
+                    <input class="create-quiz__title-input input" type="text" required minlength="20" maxlength="65"
+                        placeholder="Título do seu quizz" name="input">
 
-            <h2 class="Create-Quiz-title">Comece pelo começo</h2>
-            <input class="quizzTitleInput" type="text" required minlength="20" maxlength="65"
-                placeholder="Título do seu quizz" name="input">
-            <input class="quizzURlIMGInput" required type="url" placeholder="URL da imagem do seu quizz" name="input">
-            <input class="NQuestionsInput" type="number" required min="3"
-                placeholder="Quantidade de perguntas do seu quizz" name="input">
-            <input class="NLevelsInput" type="number" required min="2" placeholder="Quantidade de níveis do seu quizz"
-                name="input">
+                    <input class="create-quiz__image-input input" required type="url"
+                        placeholder="URL da imagem do seu quizz" name="input">
+
+                    <input class="create-quiz__questions-qty-input  input" type="number" required min="3"
+                        placeholder="Quantidade de perguntas do seu quizz" name="input">
+
+                    <input class="create-quiz__levels-qty-input  input" type="number" required min="2"
+                        placeholder="Quantidade de níveis do seu quizz" name="input">
+                </div>
+                <!-- Button -->
+                <button class="create-quiz__button" onclick="GoToCreateQuestions()">Prosseguir para criar
+                    perguntas</button>
+            </div>
+
+            <!-- Create questions -->
+            <div class="create-quiz__create-questions hide">
+                <h2 class="create-quiz__page-title">
+                    <p>Crie suas perguntas</p>
+                </h2>
+                <!-- Question 1 -->
+                <div class="create-quiz__question">
+                    <div class="create-quiz__question-header">
+                        <h2 class="create-quiz__input-title">Pergunta 1 <span class="create-quiz__edit-icon"></span>
+                        </h2>
+                    </div>
+                    <div class="create-quiz__question-info">
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__question-title-input input" type="text" required minlength="20"
+                                placeholder="Texto da pergunta" name="input">
+                            <input class="create-quiz__question-background-input input" type="text" required
+                                placeholder="Cor de fundo da pergunta" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <h2 class="create-quiz__input-title">Resposta correta</h2>
+                            <input class="create-quiz__correct-answer-input input" type="text" required
+                                placeholder="Resposta correta" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem" name="input">
+                        </div>
+                        <h2 class="create-quiz__input-title">Respostas incorretas</h2>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 1" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 1" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 2" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 2" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 3" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 3" name="input">
+                        </div>
+                    </div>
+                </div>
+                <!-- Question 2 -->
+                <div class="create-quiz__question">
+                    <div class="create-quiz__question-header">
+                        <h2 class="create-quiz__input-title">Pergunta 2 <span class="create-quiz__edit-icon"></span>
+                        </h2>
+                    </div>
+                    <div class="create-quiz__question-info hide">
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__question-title-input input" type="text" required minlength="20"
+                                placeholder="Texto da pergunta" name="input">
+                            <input class="create-quiz__question-background-input input" type="text" required
+                                placeholder="Cor de fundo da pergunta" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <h2 class="create-quiz__input-title">Resposta correta</h2>
+                            <input class="create-quiz__correct-answer-input input" type="text" required
+                                placeholder="Resposta correta" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem" name="input">
+                        </div>
+                        <h2 class="create-quiz__input-title">Respostas incorretas</h2>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 1" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 1" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 2" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 2" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 3" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 3" name="input">
+                        </div>
+                    </div>
+                </div>
+                <!-- Question 3 -->
+                <div class="create-quiz__question">
+                    <div class="create-quiz__question-header">
+                        <h2 class="create-quiz__input-title">Pergunta 3 <span class="create-quiz__edit-icon"></span>
+                        </h2>
+                    </div>
+                    <div class="create-quiz__question-info hide">
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__question-title-input input" type="text" required minlength="20"
+                                placeholder="Texto da pergunta" name="input">
+                            <input class="create-quiz__question-background-input input" type="text" required
+                                placeholder="Cor de fundo da pergunta" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <h2 class="create-quiz__input-title">Resposta correta</h2>
+                            <input class="create-quiz__correct-answer-input input" type="text" required
+                                placeholder="Resposta correta" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem" name="input">
+                        </div>
+                        <h2 class="create-quiz__input-title">Respostas incorretas</h2>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 1" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 1" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 2" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 2" name="input">
+                        </div>
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__wrong-answer-input input" type="text" required
+                                placeholder="Resposta incorreta 3" name="input">
+                            <input class="create-quiz__image-input input" type="url" required
+                                placeholder="URL da imagem 3" name="input">
+                        </div>
+                    </div>
+                </div>
+                <!-- Button -->
+                <button class="create-quiz__button" onclick="GoToCreatelevels()">Prosseguir para criar níveis</button>
+            </div>
+
+            <!-- Create levels -->
+            <div class="create-quiz__create-levels hide">
+                <h2 class="create-quiz__page-title">
+                    <p>Agora, decida os níveis!</p>
+                </h2>
+                <!-- Level 1 -->
+                <div class="create-quiz__level">
+                    <div class="create-quiz__level-header">
+                        <h2 class="create-quiz__input-title">Nível 1 <span class="create-quiz__edit-icon"></span>
+                        </h2>
+                    </div>
+                    <div class="create-quiz__level-info">
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__level-title-input input" type="text" minlength="10"
+                                placeholder="Título do nível" name="input">
+                            <input class="create-quiz__level-background-input input" type="url"
+                                placeholder="% de acerto mínima" name="input">
+                            <input class="create-quiz__level-image-input input" type="text"
+                                placeholder="URL da imagem do nível" name="input">
+                            <input class="create-quiz__level-description-input input" type="url" minlength="30"
+                                placeholder="Descrição do nível" name="input">
+                        </div>
+                    </div>
+                </div>
+                <!-- Level 2 -->
+                <div class="create-quiz__level">
+                    <div class="create-quiz__level-header">
+                        <h2 class="create-quiz__input-title">Nível 2 <span class="create-quiz__edit-icon"></span>
+                        </h2>
+                    </div>
+                    <div class="create-quiz__level-info">
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__level-title-input input" type="text" minlength="10"
+                                placeholder="Título do nível" name="input">
+                            <input class="create-quiz__level-background-input input" type="url"
+                                placeholder="% de acerto mínima" name="input">
+                            <input class="create-quiz__level-image-input input" type="text"
+                                placeholder="URL da imagem do nível" name="input">
+                            <input class="create-quiz__level-description-input input" type="url" minlength="30"
+                                placeholder="Descrição do nível" name="input">
+                        </div>
+                    </div>
+                </div>
+                <!-- Level 3 -->
+                <div class="create-quiz__level">
+                    <div class="create-quiz__level-header">
+                        <h2 class="create-quiz__input-title">Nível 3 <span class="create-quiz__edit-icon"></span>
+                        </h2>
+                    </div>
+                    <div class="create-quiz__level-info">
+                        <div class="create-quiz__input-set">
+                            <input class="create-quiz__level-title-input input" type="text" minlength="10"
+                                placeholder="Título do nível" name="input">
+                            <input class="create-quiz__level-background-input input" type="url"
+                                placeholder="% de acerto mínima" name="input">
+                            <input class="create-quiz__level-image-input input" type="text"
+                                placeholder="URL da imagem do nível" name="input">
+                            <input class="create-quiz__level-description-input input" type="url" minlength="30"
+                                placeholder="Descrição do nível" name="input">
+                        </div>
+                    </div>
+                </div>
+                <!-- Button -->
+                <button class="create-quiz__button" onclick="GotoCreantionEnd()">Finalizar Quizz</button>
+            </div>
+
+            <!-- Quiz summary -->
+            <div class="create-quiz__quiz-summary hide">
+                <h2 class="create-quiz__page-title">
+                    <p>Seu quizz está pronto!</p>
+                </h2>
+                <!-- Quiz card -->
+                <article class="create-quiz__quiz quiz">
+                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                </article>
+                <!-- Button -->
+                <button class="create-quiz__button create-quiz__button--acess-quiz" onclick="GotoCreantionEnd()">Acessar Quizz</button>
+                <p class="create-quiz__restart-home" onclick="goToHome()">Voltar pra home</p>
+            </div>
         </div>
-
-        <button class="Go-next-button" onclick="GoToCreateQuestions()">prosseguir para criar perguntas</button>
-
-    </div>
-    <!-- Criação de perguntas -->
-
-    <div class="page Create-questions hide">
-
-        <h2 class="Create-questions-title">Crie suas perguntas</h2>
-
-        <div class="question__container">
-
-            <h2 class="Create-question">Pergunta 1</h2>
-            <input class="question-textInput" type="text" required minlength="20" placeholder="Texto da pergunta"
-                name="input">
-            <input class="question-backgroundInput" type="text" required placeholder="Cor de fundo da pergunta"
-                name="input">
-
-            <h2 class="Create-question">Resposta correta</h2>
-            <input class="right-answerInput" type="text" required placeholder="Resposta correta" name="input">
-            <input class="URL-IMGInput" type="url" required placeholder="URL da imagem" name="input">
-
-            <h2 class="Create-question">Respostas incorretas</h2>
-            <input class="wrong-answerInput" type="text" required placeholder="Resposta incorreta 1" name="input">
-            <input class="URL-IMGInput" type="url" required placeholder="URL da imagem 1" name="input">
-            <input class="wrong-answerInput" type="text" required placeholder="Resposta incorreta 2" name="input">
-            <input class="URL-IMGInput" type="url" required placeholder="URL da imagem 2" name="input">
-            <input class="wrong-answerInput" type="text" required placeholder="Resposta incorreta 3" name="input">
-            <input class="URL-IMGInput" type="url" required placeholder="URL da imagem 3" name="input">
-        </div>
-
-
-        <button class="Go-next-button" onclick="GoToCreatelevels()">prosseguir para criar níveis</button>
-
-    </div>
-
-    </div>
-    <!-- Criação de Niveis -->
-
-    <div class="Create-levels hide">
-        <h2 class="Create-level-title">Agora, decida os níveis!</h2>
-        <div class="level__container">
-
-            <h2 class="Create-level">Nível 1</h2>
-            <input class="wrong-answerInput" type="text" minlength="10" placeholder="Título do nível" name="input">
-            <input class="URL-IMGInput" type="url" placeholder="% de acerto mínima" name="input">
-            <input class="wrong-answerInput" type="text" placeholder="URL da imagem do nível" name="input">
-            <input class="URL-IMGInput" type="url" minlength="30" placeholder="Descrição do nível" name="input">
-
-        </div>
-
-        <button class="Go-next-button" onclick="GotoCreantionEnd()">Finalizar</button>
-    </div>
-
-    </div>
-    </div>
+    </main>
 
     <!-- Bibliotecas -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

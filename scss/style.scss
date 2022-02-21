@@ -11,6 +11,7 @@ $color-wrong-answer: #ff4b4b;
 $color-back-to-home: #818181;
 $color-empty-quiz-text: #b9b9b9;
 $color-empy-quiz-border: #d5d5d5;
+$color-input-placeholder: #bababa;
 
 @mixin desktop-only {
     @media screen and (min-width: 1000px) {
@@ -249,7 +250,12 @@ body {
 
                 &::before {
                     content: "";
-                    background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.585) 30%, transparent 100%);
+                    background: linear-gradient(
+                        to top,
+                        rgba(0, 0, 0, 1) 0%,
+                        rgba(0, 0, 0, 0.585) 30%,
+                        transparent 100%
+                    );
                     border-radius: 5px;
                     position: absolute;
                     bottom: 0;
@@ -485,6 +491,172 @@ body {
                 font-size: 18px;
                 padding: 20px 0 80px;
             }
+        }
+    }
+
+    &.page-create-quiz {
+        & input {
+            display: block;
+        }
+        .create-quiz {
+            &__basic-info,
+            &__create-questions,
+            &__create-levels {
+                margin-bottom: 200px;
+                @include desktop-only() {
+                    width: 600px;
+                    margin: 0 auto 200px;
+                }
+            }
+
+            &__page-title {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 89px;
+
+                font-size: 20px;
+                font-weight: 700;
+                line-height: 24px;
+            }
+
+            &__info,
+            &__question,
+            &__level {
+                background-color: white;
+                padding: 15px 0px;
+                margin: 0 0 20px;
+
+                .input {
+                    width: 93%;
+                    padding: 13px;
+                    margin: 0 auto 13px;
+
+                    border: 1px solid #d1d1d1;
+                    border-radius: 5px;
+
+                    &::placeholder {
+                        font-style: italic;
+                        font-size: 19px;
+                        color: $color-input-placeholder;
+                    }
+                }
+            }
+
+            &__button {
+                display: block;
+                background-color: $color-button;
+
+                color: white;
+                font-size: 18px;
+                line-height: 21px;
+                font-weight: 400;
+
+                border: none;
+                border-radius: 15px;
+
+                width: 80%;
+
+                padding: 13px;
+                margin: 34px auto;
+
+                &--acess-quiz {
+                    width: 220px;
+                    margin: 34px auto 5px;
+                }
+            }
+
+            &__question-header,
+            &__level-header {
+                position: relative;
+            }
+
+            &__input-set {
+                margin: 15px 0px 35px;
+
+                &:last-child {
+                    margin: 15px 0px 15px;
+                }
+            }
+
+            &__input-title {
+                position: relative;
+                width: 93%;
+                font-weight: 700;
+                font-size: 20px;
+                line-height: 24px;
+                margin: 5px auto 10px;
+            }
+            &__edit-icon {
+                &::after {
+                    content: url("../images/icons/edit.svg");
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+            }
+
+            .quiz {
+                position: relative;
+
+                overflow-wrap: break-word;
+
+                height: 181px;
+                max-width: 340px;
+
+                margin: 0 auto 15px;
+
+                @include desktop-only() {
+                    margin: 0;
+                }
+
+                &__image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+
+                    border-radius: 5px;
+                }
+                &__title {
+                    position: absolute;
+                    bottom: 15px;
+                    z-index: 2;
+
+                    width: 100%;
+
+                    padding: 0 25px;
+
+                    color: white;
+                    font-size: 19px;
+                    font-weight: normal;
+                    line-height: 22px;
+                }
+
+                &::before {
+                    content: "";
+                    background: linear-gradient(
+                        to top,
+                        rgba(0, 0, 0, 1) 0%,
+                        rgba(0, 0, 0, 0.585) 30%,
+                        transparent 100%
+                    );
+                    border-radius: 5px;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    z-index: 1;
+                }
+            }
+
+            &__restart-home {
+                color: $color-back-to-home;
+                font-size: 18px;
+                padding: 20px 0 80px;
+                text-align: center;
+            }
+
         }
     }
 }

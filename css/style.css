@@ -396,6 +396,130 @@ body {
   font-size: 18px;
   padding: 20px 0 80px;
 }
+.page.page-create-quiz input {
+  display: block;
+}
+.page.page-create-quiz .create-quiz__basic-info, .page.page-create-quiz .create-quiz__create-questions, .page.page-create-quiz .create-quiz__create-levels {
+  margin-bottom: 200px;
+}
+@media screen and (min-width: 1000px) {
+  .page.page-create-quiz .create-quiz__basic-info, .page.page-create-quiz .create-quiz__create-questions, .page.page-create-quiz .create-quiz__create-levels {
+    width: 600px;
+    margin: 0 auto 200px;
+  }
+}
+.page.page-create-quiz .create-quiz__page-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 89px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.page.page-create-quiz .create-quiz__info, .page.page-create-quiz .create-quiz__question, .page.page-create-quiz .create-quiz__level {
+  background-color: white;
+  padding: 15px 0px;
+  margin: 0 0 20px;
+}
+.page.page-create-quiz .create-quiz__info .input, .page.page-create-quiz .create-quiz__question .input, .page.page-create-quiz .create-quiz__level .input {
+  width: 93%;
+  padding: 13px;
+  margin: 0 auto 13px;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+}
+.page.page-create-quiz .create-quiz__info .input::placeholder, .page.page-create-quiz .create-quiz__question .input::placeholder, .page.page-create-quiz .create-quiz__level .input::placeholder {
+  font-style: italic;
+  font-size: 19px;
+  color: #bababa;
+}
+.page.page-create-quiz .create-quiz__button {
+  display: block;
+  background-color: #ec362d;
+  color: white;
+  font-size: 18px;
+  line-height: 21px;
+  font-weight: 400;
+  border: none;
+  border-radius: 15px;
+  width: 80%;
+  padding: 13px;
+  margin: 34px auto;
+}
+.page.page-create-quiz .create-quiz__button--acess-quiz {
+  width: 220px;
+  margin: 34px auto 5px;
+}
+.page.page-create-quiz .create-quiz__question-header, .page.page-create-quiz .create-quiz__level-header {
+  position: relative;
+}
+.page.page-create-quiz .create-quiz__input-set {
+  margin: 15px 0px 35px;
+}
+.page.page-create-quiz .create-quiz__input-set:last-child {
+  margin: 15px 0px 15px;
+}
+.page.page-create-quiz .create-quiz__input-title {
+  position: relative;
+  width: 93%;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  margin: 5px auto 10px;
+}
+.page.page-create-quiz .create-quiz__edit-icon::after {
+  content: url("../images/icons/edit.svg");
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.page.page-create-quiz .create-quiz .quiz {
+  position: relative;
+  overflow-wrap: break-word;
+  height: 181px;
+  max-width: 340px;
+  margin: 0 auto 15px;
+}
+@media screen and (min-width: 1000px) {
+  .page.page-create-quiz .create-quiz .quiz {
+    margin: 0;
+  }
+}
+.page.page-create-quiz .create-quiz .quiz__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.page.page-create-quiz .create-quiz .quiz__title {
+  position: absolute;
+  bottom: 15px;
+  z-index: 2;
+  width: 100%;
+  padding: 0 25px;
+  color: white;
+  font-size: 19px;
+  font-weight: normal;
+  line-height: 22px;
+}
+.page.page-create-quiz .create-quiz .quiz::before {
+  content: "";
+  background: linear-gradient(to top, black 0%, rgba(0, 0, 0, 0.585) 30%, transparent 100%);
+  border-radius: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+.page.page-create-quiz .create-quiz__restart-home {
+  color: #818181;
+  font-size: 18px;
+  padding: 20px 0 80px;
+  text-align: center;
+}
 
 .hide {
   display: none;
@@ -422,35 +546,5 @@ body {
 .not-selected {
   opacity: 30%;
 }
-
-.basic-info {
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  size: 100vh;
-  background-color: #009C22;
-}
-
-.go-next-button {
-  background-color: #EC362D;
-  color: #FFF5F4;
-  font-size: 18px;
-  line-height: 21px;
-  border: none;
-  border-radius: 15px;
-  max-width: 260px;
-  min-width: 220px;
-  padding: 13px;
-  margin-top: 34px;
-}  
-
-h2{
-  font-size: 20px;
-  font-weight: bold;
-}
-
-
-
 
 /*# sourceMappingURL=style.css.map */
