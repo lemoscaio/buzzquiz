@@ -445,13 +445,11 @@ button {
                 flex-wrap: wrap;
                 justify-content: space-between;
 
-                // gap: 12px;
-
                 margin-top: 15px;
             }
 
             &__answer {
-                width: 49%; // TEMPORÁRIO
+                width: 49%;
             }
 
             &__answer-image {
