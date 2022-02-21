@@ -350,10 +350,10 @@ function createContainerQuestion() {
     for (i = 0; i < number; i++) {
         htmlResute += `<div class="create-quiz__question">
         <div class="create-quiz__question-header">
-            <h2 class="create-quiz__input-title">Pergunta ${i + 1} <span class="create-quiz__edit-icon"></span>
+            <h2 onclick="Collapse(${i}, 'question')" class="create-quiz__input-title">Pergunta ${i + 1} <span id="question_icon_${i}" class="create-quiz__edit-icon hide"></span>
             </h2>
         </div>
-        <div class="create-quiz__question-info">
+        <div id="question_item_${i}" class="create-quiz__question-info">
             <div class="create-quiz__input-set">
                 <input id="title_${i}" class="create-quiz__question-title-input input" type="text" required minlength="20"
                     placeholder="Texto da pergunta" name="input">
@@ -402,10 +402,10 @@ function createLevelQuiz() {
     for (i = 0; i < number; i++) {
         htmlResute += `<div class="create-quiz__level">
         <div class="create-quiz__level-header">
-            <h2 class="create-quiz__input-title">Nível ${i + 1} <span class="create-quiz__edit-icon"></span>
+            <h2 onclick="Collapse(${i}, 'level')" class="create-quiz__input-title">Nível ${i + 1} <span id="level_icon_${i}" class="create-quiz__edit-icon hide"></span>
             </h2>
         </div>
-        <div class="create-quiz__level-info">
+        <div id="level_item_${i}" class="create-quiz__level-info">
             <div class="create-quiz__input-set">
                 <input id="title_${i}" class="create-quiz__level-title-input input" type="text" minlength="10"
                     placeholder="Título do nível" name="input">
@@ -462,9 +462,9 @@ function saveAndGoToEnd() {
         }
 
         const answers = [rightAnswer, firstWrongAnswer];
-        if(secondWrongAnswer.text !== "" && secondWrongAnswer.image !== "")
+        if (secondWrongAnswer.text !== "" && secondWrongAnswer.image !== "")
             answers.push(secondWrongAnswer)
-        if(thirdWrongAnswer.text !== "" && thirdWrongAnswer.image !== "")
+        if (thirdWrongAnswer.text !== "" && thirdWrongAnswer.image !== "")
             answers.push(thirdWrongAnswer)
 
         let question = {
@@ -501,6 +501,16 @@ function saveAndGoToEnd() {
 
 
 
-function Collapse() {
-
+function Collapse(indice, type) {
+    console.log(indice, type)
+    const item = document.getElementById(`${type}_item_${indice}`)
+    const icon = document.getElementById(`${type}_icon_${indice}`)
+    if (item.classList.contains("hide"))
+        item.classList.remove("hide")
+    else
+        item.classList.add("hide")
+    if (icon.classList.contains("hide"))
+        icon.classList.remove("hide")
+    else
+        icon.classList.add("hide")
 }
