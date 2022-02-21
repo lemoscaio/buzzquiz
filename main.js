@@ -732,6 +732,16 @@ function isValidURL() {
     }
    
  };
+ function isValidURLimageN() {
+    let number = document.getElementById("nInput").value
+    for (i = 0; i < number; i++){
+       const url = document.getElementById(`level-image_${i}`).value
+
+       var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+       return (res !== null)
+   }
+   
+ };
 
  function ValidationBasicInfo(){
      if(ValidationQuizTitle() && isValidURL() && ValidationNumber()){
@@ -755,5 +765,11 @@ function isValidURL() {
  }
 
  function ValidationLevelCreation(){
+     if(isValidURLimageN() && ValidationLevelValue() && ValidationLeveltext() && ValidationLeveltitle()){
+        saveAndGoToEnd()
+     }
+     else{
+         alert("erro!")
+     }
 
  }
