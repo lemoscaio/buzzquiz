@@ -197,16 +197,15 @@ function slidePage() {
 getAllQuizzes()
 
 
-function GoToCreateQuestions(){
-
-    document.querySelector(".basic-info__container").classList.add("hide");
+function goToCreateQuestions(){
+    document.querySelector(".basic-info").classList.add("hide");
     document.querySelector(".Create-questions").classList.remove("hide");
 }
-function GoToCreateLevels(){
+function goToCreateLevels(){
     document.querySelector(".Create-questions").classList.add("hide");
     document.querySelector(".Create-levels").classList.remove("hide");
 }
-function GotoCreantionEnd(){
+function goToCreationEnd(){
     document.querySelector(".Create-levels").classList.add("hide");
     document.querySelector(".Creation-End").classList.remove("hide");
 }
@@ -216,6 +215,68 @@ function botaoteste(){
     document.querySelector(".Create-Quiz").classList.remove("hide");
 
 }
+
+function preventElements(event){
+    event.preventDefault()
+}
+
+document.getElementById("questionForm").addEventListener("submit", function(event){
+    event.preventDefault()
+})
+document.getElementById("levelForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+})
+
+function createContainerQuestion(){
+    let number = document.getElementById("qInput").value 
+    let htmlResute = ""
+    for(i=0; i<number; i++){
+        htmlResute += `<h2 class="Create-question">Pergunta ${i + 1}</h2>
+        <input id="question_text_${i}" class="question-textInput" type="text" required minlength="20" placeholder="Texto da pergunta"
+            name="input">
+        <input id="question_background_${i}" class="question-backgroundInput" type="text" required placeholder="Cor de fundo da pergunta"
+            name="input">
+
+        <h2 class="Create-question">Resposta correta</h2>
+        <input id="right_answer_${i}" class="right-answerInput" type="text" required placeholder="Resposta correta" name="input">
+        <input id="right_answer_image${i}" class="URL-IMGInput" type="url" required placeholder="URL da imagem" name="input">
+
+        <h2 class="Create-question">Respostas incorretas</h2>
+        <input id="first_wrong_answer_${i}" class="wrong-answerInput" type="text" required placeholder="Resposta incorreta 1" name="input">
+        <input id="first_wrong_answer_image_${i}" class="URL-IMGInput" type="url" required placeholder="URL da imagem 1" name="input">
+        <input id="second_wrong_answer_${i}" class="wrong-answerInput" type="text"  placeholder="Resposta incorreta 2" name="input">
+        <input id="second_wrong_answer_image_${i}" class="URL-IMGInput" type="url"  placeholder="URL da imagem 2" name="input">
+        <input id="third_wrong_answer_${i}" class="wrong-answerInput" type="text"  placeholder="Resposta incorreta 3" name="input">
+        <input id="third_wrong_answer_image_${i}" class="URL-IMGInput" type="url"  placeholder="URL da imagem 3" name="input">` 
+
+    }
+    let questionConteiner = document.getElementById("questionContainer")
+    questionConteiner.innerHTML = htmlResute
+
+   goToCreateQuestions()
+}
+
+function createLevelQuiz(){
+    let number = document.getElementById("nInput").value 
+    let htmlResute = ""
+    for(i=0; i<number; i++){
+        htmlResute += `<h2 class="Create-level">Nível 1</h2>
+        <input id="level_text_${i}" class="wrong-answerInput" type="text" minlength="10" placeholder="Título do nível" name="input">
+        <input id="level_percent_${i}" class="URL-IMGInput" type="url" placeholder="% de acerto mínima" name="input">
+        <input id="level_background_${i}" class="wrong-answerInput" type="text" placeholder="URL da imagem do nível" name="input">
+        <input id="level_description_${i}" class="URL-IMGInput" type="url" minlength="30" placeholder="Descrição do nível" name="input">` 
+    }
+
+    let questionConteiner = document.getElementById("levelContainer")
+    questionConteiner.innerHTML = htmlResute
+
+   goToCreateLevels()
+}
+
+
+
+
+
 function Collapse(){
 
 }

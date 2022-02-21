@@ -14,7 +14,9 @@
     <header class="header">
         <h1 class="header__title" onclick="goToHome()">BuzzQuizz</h1>
     </header>
-    <main class="page page-quizzes">
+    <br/>
+    <br/>
+    <main class="page page-quizzes hide">
         <!-- User quizzes -->
         <div class="quizzes hide">
             <div class="quizzes__title-container">
@@ -62,50 +64,36 @@
     <div class="page page-create-quiz Create-Quiz">
 
         <!-- Informações basicas -->
-        <div class="page basic-info">
-
-            <h2 class="Create-Quiz-title">Comece pelo começo</h2>
-            <input class="quizzTitleInput" type="text" required minlength="20" maxlength="65"
-                placeholder="Título do seu quizz" name="input">
-            <input class="quizzURlIMGInput" required type="url" placeholder="URL da imagem do seu quizz" name="input">
-            <input class="NQuestionsInput" type="number" required min="3"
-                placeholder="Quantidade de perguntas do seu quizz" name="input">
-            <input class="NLevelsInput" type="number" required min="2" placeholder="Quantidade de níveis do seu quizz"
-                name="input">
+        <div class="basic-info">
+            <form onsubmit="createContainerQuestion()" id="questionForm">
+                <h2 class="Create-Quiz-title">Comece pelo começo</h2>
+                <input class="quizzTitleInput" type="text" required minlength="20" maxlength="65"
+                    placeholder="Título do seu quizz" name="input">
+                <input class="quizzURlIMGInput" required type="url" placeholder="URL da imagem do seu quizz"
+                    name="input">
+                <input class="NQuestionsInput" type="number" required min="3" id="qInput"
+                    placeholder="Quantidade de perguntas do seu quizz" name="input">
+                <input class="NLevelsInput" type="number" required min="2" id="nInput"
+                    placeholder="Quantidade de níveis do seu quizz" name="input">
+                <button class="Go-next-button" type="submit">prosseguir para criar perguntas</button>
+            </form>
         </div>
 
-        <button class="Go-next-button" onclick="GoToCreateQuestions()">prosseguir para criar perguntas</button>
 
     </div>
     <!-- Criação de perguntas -->
 
-    <div class="page Create-questions hide">
-
+    <div class="Create-questions hide">
         <h2 class="Create-questions-title">Crie suas perguntas</h2>
 
-        <div class="question__container">
-
-            <h2 class="Create-question">Pergunta 1</h2>
-            <input class="question-textInput" type="text" required minlength="20" placeholder="Texto da pergunta"
-                name="input">
-            <input class="question-backgroundInput" type="text" required placeholder="Cor de fundo da pergunta"
-                name="input">
-
-            <h2 class="Create-question">Resposta correta</h2>
-            <input class="right-answerInput" type="text" required placeholder="Resposta correta" name="input">
-            <input class="URL-IMGInput" type="url" required placeholder="URL da imagem" name="input">
-
-            <h2 class="Create-question">Respostas incorretas</h2>
-            <input class="wrong-answerInput" type="text" required placeholder="Resposta incorreta 1" name="input">
-            <input class="URL-IMGInput" type="url" required placeholder="URL da imagem 1" name="input">
-            <input class="wrong-answerInput" type="text" required placeholder="Resposta incorreta 2" name="input">
-            <input class="URL-IMGInput" type="url" required placeholder="URL da imagem 2" name="input">
-            <input class="wrong-answerInput" type="text" required placeholder="Resposta incorreta 3" name="input">
-            <input class="URL-IMGInput" type="url" required placeholder="URL da imagem 3" name="input">
-        </div>
-
-
-        <button class="Go-next-button" onclick="GoToCreatelevels()">prosseguir para criar níveis</button>
+        <form onsubmit="createLevelQuiz()" id="levelForm">
+            <div>
+                <div class="question__container" id="questionContainer"></form>
+                    
+                </div>
+                <button type="submit" class="Go-next-button">prosseguir para criar níveis</button>
+            </div>
+        </form>
 
     </div>
 
@@ -114,20 +102,15 @@
 
     <div class="Create-levels hide">
         <h2 class="Create-level-title">Agora, decida os níveis!</h2>
-        <div class="level__container">
-
-            <h2 class="Create-level">Nível 1</h2>
-            <input class="wrong-answerInput" type="text" minlength="10" placeholder="Título do nível" name="input">
-            <input class="URL-IMGInput" type="url" placeholder="% de acerto mínima" name="input">
-            <input class="wrong-answerInput" type="text" placeholder="URL da imagem do nível" name="input">
-            <input class="URL-IMGInput" type="url" minlength="30" placeholder="Descrição do nível" name="input">
-
-        </div>
-
-        <button class="Go-next-button" onclick="GotoCreantionEnd()">Finalizar</button>
+        <form onsubmit="GotoCreantionEnd()">
+            <div>
+                <div class="level__container" id="levelContainer">
+    
+                </div>
+                <button class="Go-next-button" onclick="GotoCreantionEnd()">Finalizar</button>
+            </div>
+        </form>
     </div>
-
-
 
     </div>
     </div>
