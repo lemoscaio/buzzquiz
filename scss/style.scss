@@ -33,6 +33,16 @@ svg path,
 svg rect {
     fill: $color-header;
 }
+.loading--page {
+    transition: all 0.2s;
+    background-color: rgba(255, 255, 255, 0.95);
+    position: fixed;
+    z-index: 5;
+    top: 69px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 
 * {
     font-family: $font-standard;
@@ -86,17 +96,18 @@ body {
 
         @include desktop-only() {
             max-width: 1152px;
-            padding: 0 50px;
+            padding: 40px 50px 0;
         }
 
         .quizzes {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom: 20px;
 
             @include desktop-only() {
                 flex-wrap: wrap;
-                margin-bottom: 40px;
+                padding-bottom: 40px;
             }
 
             &__user-quizzes {
@@ -132,7 +143,7 @@ body {
                 @include desktop-only() {
                     grid-column-start: 1;
                     grid-column-end: 4;
-                    margin: 0;
+                    margin: 0 0 35px;
                 }
             }
 
@@ -263,6 +274,35 @@ body {
                     right: 0;
                     top: 0;
                     z-index: 1;
+                }
+
+                &.user-quiz {
+                    .modify-icons {
+                        transform: translateX(0%);
+                        width: 0%;
+                        transition: width 0.2s;
+                        background-color: $color-button;
+                        display: flex;
+                        flex-direction: column;
+                        position: absolute;
+                        z-index: 1;
+                        top: 10%;
+                        right: 0;
+                        border-radius: 10px 0px 0px 11px;
+                        &__edit-icon {
+                            padding: 10px 10px 10px 12px;
+                        }
+                        &__delete-icon {
+                            padding: 10px 10px 10px 12px;
+                        }
+                    }
+                }
+
+                &.user-quiz:hover {
+                    .modify-icons {
+                        transform: translateX(0%);
+                        width: 12%;
+                    }
                 }
             }
         }
@@ -658,7 +698,6 @@ body {
                 padding: 20px 0 80px;
                 text-align: center;
             }
-
         }
     }
 }

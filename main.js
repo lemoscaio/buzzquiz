@@ -25,19 +25,19 @@ function printAllQuizzes(response) {
 
     let quizzesList = response.data;
 
+    const allQuizzesEl = document.querySelector(".quizzes__all-quizzes")
+    allQuizzesEl.innerHTML = ""
+
     quizzesList.forEach(quiz => {
         let id = quiz.id;
         let title = quiz.title;
         let image = quiz.image;
-        let questions = quiz.questions;
-        let levels = quiz.levels;
 
         let quizTemplate = `<article class="quizzes__quiz quiz" id="${id}" onclick="openQuiz(this)">
         <img src="${image}" alt="Quizz image" class="quiz__image">
         <h3 class="quiz__title">${title}</h3>
     </article>`
 
-        const allQuizzesEl = document.querySelector(".quizzes__all-quizzes")
         allQuizzesEl.innerHTML += quizTemplate
     });
 
@@ -54,22 +54,24 @@ function getUserQuizzes() {
 
 function openQuiz(quiz) {
     let quizID = quiz.id;
-    let promise = axios.get(API_BUZZQUIZZ + `/${quizID}`);
-    promise.then(displayQuiz);
+    showLoadingPage();
+    
+    // SetTimeout only for demonstration purposes (loading animation)
+    let promise = axios.get(API_BUZZQUIZZ + `/${quizID}`)
+    setTimeout(() => {promise.then(displayQuiz)}, 500);
 }
 
 function displayQuiz(response) {
     changePage("page-quizzes", "page-quiz")
-
+    
+    hideLoadingPage()
     const quizPageEl = document.querySelector(".page-quiz")
 
     quiz = response.data
 
-    let id = quiz.id;
     let title = quiz.title;
     let image = quiz.image;
     let questions = quiz.questions;
-    let levels = quiz.levels;
 
     let templateQuizQuestions = ""
     let templateQuizAnswers = ""
@@ -98,8 +100,6 @@ function clickCardAnswer(answer) {
     let totalQuestions = document.querySelectorAll(".quiz__question").length
     counterAnswer += 1
     eachAnswerPercentage = 100 / totalQuestions
-
-
 
     // Get all siblings of the answer and check the answer
     let siblingAnswerEl = answer.parentNode.firstChild
@@ -188,12 +188,17 @@ function resetQuiz() {
 }
 
 function goToHome() {
+    getAllQuizzes()
     resetQuiz();
     changePage("page-quiz", "page-quizzes");
-
+    
     const quizPageEl = document.querySelector(".page-quiz");
 
     quizPageEl.innerHTML = "";
+}
+
+function showLoadingPage(parentDivEl) {
+    document.querySelector(".loading--page.hide").classList.remove("hide")
 }
 
 function showLoading(dataAttribute) {
@@ -205,6 +210,15 @@ function hideLoading(dataAttribute) {
     let parentDiv = (document.querySelector("[data-quizzes=" + dataAttribute + "]"))
     parentDiv.querySelector(".loading").classList.add("hide")
 }
+
+function hideLoadingPage() {
+    document.querySelector(".loading--page").classList.add("hide")
+}
+
+function empty() {
+}
+
+
 
 function changePage(pageOut, pageIn) {
     document.querySelector("." + pageOut).classList.toggle("hide")
@@ -297,7 +311,16 @@ function createQuiz() {
     })
 }
 
+function editQuiz(quizID) {
+    alert("soon you'll be able to edit the quiz")
+}
+
 function deleteQuiz(quizID) {
+    let deleteAnswer = prompt("Do you really want to delete this quiz? Y for Yes / N for No")
+
+    if (deleteAnswer !== "Y") return
+
+    alert("soon you'll be able to delete the quiz")
 
     const deleteQuiz = axios.create({
         headers: { "Secret-Key": localStorage.getItem("chave") }
@@ -307,29 +330,31 @@ function deleteQuiz(quizID) {
 
 }
 
+
+
 // initializing functions
 getAllQuizzes()
 
 
-function GoToCreateQuestions(){
+function GoToCreateQuestions() {
 
     document.querySelector(".basic-info__container").classList.add("hide");
     document.querySelector(".Create-questions").classList.remove("hide");
 }
-function GoToCreateLevels(){
+function GoToCreateLevels() {
     document.querySelector(".Create-questions").classList.add("hide");
     document.querySelector(".Create-levels").classList.remove("hide");
 }
-function GotoCreantionEnd(){
+function GotoCreantionEnd() {
     document.querySelector(".Create-levels").classList.add("hide");
     document.querySelector(".Creation-End").classList.remove("hide");
 }
 
-function botaoteste(){  
+function botaoteste() {
     document.querySelector(".page-quizzes").classList.add("hide");
     document.querySelector(".Create-Quiz").classList.remove("hide");
 
 }
-function Collapse(){
+function Collapse() {
 
 }

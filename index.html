@@ -15,13 +15,15 @@
         <h1 class="header__title" onclick="goToHome()">BuzzQuizz</h1>
     </header>
     <!-- All quizzes page -->
-    <main class="page page-quizzes hide">
+    <main class="page page-quizzes">
         <!-- User quizzes -->
         <div class="quizzes" data-quizzes="userQuizzes">
+            <!-- Title -->
             <div class="quizzes__title-container">
                 <h2 class="quizzes__title">Seus Quizzes</h2>
                 <button class="quizzes__create-quizz--small" onclick="createQuiz()">+</button>
             </div>
+            <!-- Loading -->
             <div class="loading hide">
                 <div class="loader loader--style3" title="2">
                     <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
@@ -35,26 +37,60 @@
                     </svg>
                 </div>
             </div>
+            <!-- Empty -->
+            <article class="quizzes__user-empty hide">
+                <p class="quizzes__empty-message">Você não criou nenhum quizz ainda :(</p>
+                <button class="quizzes__create-quizz" onclick="createQuiz()">Criar Quizz</button>
+            </article>
+            <!-- User quizzes -->
             <section class="quizzes__user-quizzes">
-                <article class="quizzes__user-empty">
-                    <p class="quizzes__empty-message">Você não criou nenhum quizz ainda :(</p>
-                    <button class="quizzes__create-quizz" onclick="createQuiz()">Criar Quizz</button>
-                </article>
-                <article class="quizzes__quiz quiz">
-                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                <!-- Quiz -->
+                <article class="quizzes__quiz quiz user-quiz" data-userQuiz="true">
+                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
                     <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                    <!-- Modify icons -->
+                    <div class="quiz__modify-icons modify-icons">
+                        <img class="modify-icons__edit-icon" onclick="editQuiz(this)" src="images/icons/edit-white.svg"
+                            alt="Edit icon">
+                        <img class="modify-icons__delete-icon" onclick="deleteQuiz(this)"
+                            src="images/icons/delete-white.svg" alt="Delete icon">
+                    </div>
                 </article>
-                <article class="quizzes__quiz quiz">
-                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                <!-- Quiz -->
+                <article class="quizzes__quiz quiz user-quiz" data-userQuiz="true">
+                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
                     <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                    <!-- Modify icons -->
+                    <div class="quiz__modify-icons modify-icons">
+                        <img class="modify-icons__edit-icon" onclick="editQuiz(this)" src="images/icons/edit-white.svg"
+                            alt="Edit icon">
+                        <img class="modify-icons__delete-icon" onclick="deleteQuiz(this)"
+                            src="images/icons/delete-white.svg" alt="Delete icon">
+                    </div>
                 </article>
-                <article class="quizzes__quiz quiz">
-                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                <!-- Quiz -->
+                <article class="quizzes__quiz quiz user-quiz" data-userQuiz="true">
+                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
                     <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                    <!-- Modify icons -->
+                    <div class="quiz__modify-icons modify-icons">
+                        <img class="modify-icons__edit-icon" onclick="editQuiz(this)" src="images/icons/edit-white.svg"
+                            alt="Edit icon">
+                        <img class="modify-icons__delete-icon" onclick="deleteQuiz(this)"
+                            src="images/icons/delete-white.svg" alt="Delete icon">
+                    </div>
                 </article>
-                <article class="quizzes__quiz quiz">
-                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                <!-- Quiz -->
+                <article class="quizzes__quiz quiz user-quiz" data-userQuiz="true">
+                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
                     <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                    <!-- Modify icons -->
+                    <div class="quiz__modify-icons modify-icons">
+                        <img class="modify-icons__edit-icon" onclick="editQuiz(this)" src="images/icons/edit-white.svg"
+                            alt="Edit icon">
+                        <img class="modify-icons__delete-icon" onclick="deleteQuiz(this)"
+                            src="images/icons/delete-white.svg" alt="Delete icon">
+                    </div>
                 </article>
             </section>
         </div>
@@ -85,9 +121,8 @@
     <main class="page page-quiz hide">
         <!-- Added with javascript -->
     </main>
-
     <!-- Quiz creation page -->
-    <main class="page page-create-quiz">
+    <main class="page page-create-quiz hide">
 
         <div class="create-quiz">
             <!-- Basic info -->
@@ -318,20 +353,34 @@
                 </h2>
                 <!-- Quiz card -->
                 <article class="create-quiz__quiz quiz">
-                    <img src="images/imagemteste.png" alt="" class="quiz__image">
+                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
                     <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
                 </article>
                 <!-- Button -->
-                <button class="create-quiz__button create-quiz__button--acess-quiz" onclick="GotoCreantionEnd()">Acessar Quizz</button>
+                <button class="create-quiz__button create-quiz__button--acess-quiz" onclick="GotoCreantionEnd()">Acessar
+                    Quizz</button>
                 <p class="create-quiz__restart-home" onclick="goToHome()">Voltar pra home</p>
             </div>
         </div>
     </main>
+    <!-- Loading -->
+    <div class="loading loading--page hide">
+        <div class="loader loader--style3" title="2">
+            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
+                viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                <path fill="#000"
+                    d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25"
+                        to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+    </div>
 
     <!-- Bibliotecas -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Javascript -->
     <script src="main.js"></script>
 </body>
-
 </html>
