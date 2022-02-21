@@ -63,6 +63,13 @@ function printUserQuizzes() {
 
     userQuizzesEl.innerHTML = ""
 
+    if (userQuizzes.length === 0) {
+        const emptyQuizEl = document.querySelector(".quizzes__user-empty")
+        emptyQuizEl.classList.remove("hide")
+        const userQuizTitleEl = document.querySelector(".quizzes__title-container")
+        userQuizTitleEl.classList.add("hide")
+    }
+
     userQuizzes.forEach(quiz => {
         let title = quiz.title;
         let image = quiz.image;

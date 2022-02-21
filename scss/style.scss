@@ -67,6 +67,10 @@ body {
     background-color: $color-background;
 }
 
+button {
+    cursor: pointer;
+}
+
 .header {
     position: fixed;
     top: 0;
@@ -133,6 +137,10 @@ body {
                     grid-template-columns: repeat(3, 1fr);
                     gap: 12px;
                 }
+
+                &::empty {
+                    display: none;
+                }
             }
 
             &__user-empty {
@@ -147,7 +155,6 @@ body {
                 border-radius: 5px;
 
                 padding: 40px;
-                margin: 0 0 35px; //TEMPORÁRIO
 
                 &.hide {
                     display: none;
@@ -156,7 +163,6 @@ body {
                 @include desktop-only() {
                     grid-column-start: 1;
                     grid-column-end: 4;
-                    margin: 0 0 35px;
                 }
             }
 
@@ -178,6 +184,12 @@ body {
                 width: 100%;
 
                 margin-bottom: 15px;
+
+                &.hide {
+                    display: none;
+                }
+
+
 
                 @include desktop-only() {
                     justify-content: flex-start;
@@ -291,8 +303,9 @@ body {
 
                 &.user-quiz {
                     .modify-icons {
-                        transform: translateX(0%);
-                        width: 0%;
+                        transform: translateX(0.5%);
+                        width: 0;
+                        pointer-events: none;
                         transition: width 0.2s;
                         background-color: $color-button;
                         display: flex;
@@ -315,6 +328,12 @@ body {
                     .modify-icons {
                         transform: translateX(0%);
                         width: 12%;
+                        &__edit-icon {
+                            display: block;
+                        }
+                        &__delete-icon {
+                            display: block;
+                        }
                     }
                 }
             }
@@ -741,4 +760,8 @@ body {
 
 .not-selected {
     opacity: 30%;
+}
+
+.clickable {
+    cursor: pointer;
 }
