@@ -1,16 +1,12 @@
 const API_BUZZQUIZZ = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
-
+// Answer related counters
 let correctAnswerPercentage = 0;
 let eachAnswerPercentage = 0;
-
-let quiz = null
-let userQuizzes = []
-
 let counterAnswer = 0
-
-
-// Functions definition
+// 
+let quiz = null;
+let userQuizzes = [];
 
 function getAllQuizzes() {
     let promise = axios.get(API_BUZZQUIZZ);
@@ -23,51 +19,51 @@ function getAllQuizzes() {
 }
 
 function printAllQuizzes(response) {
-    hideLoading("allQuizzes")
-    hideLoading("userQuizzes")
+    hideLoading("allQuizzes");
+    hideLoading("userQuizzes");
 
     let quizzesList = response.data;
 
     quizzesList = quizzesList.filter(filterUserQuizzes);
 
-    const allQuizzesEl = document.querySelector(".quizzes__all-quizzes")
-    allQuizzesEl.innerHTML = ""
+    const allQuizzesEl = document.querySelector(".quizzes__all-quizzes");
+    allQuizzesEl.innerHTML = "";
 
     quizzesList.forEach(quiz => {
         let id = quiz.id;
         let title = quiz.title;
         let image = quiz.image;
 
-        let quizTemplate = `<article class="quizzes__quiz quiz" id="${id}" data-identifier="quizz-card" onclick="openQuiz(this)">
+        let quizTemplate = `<article class="quizzes__quiz quiz clickable" id="${id}" data-identifier="quizz-card" onclick="openQuiz(this)">
         <img src="${image}" alt="Quizz image" class="quiz__image">
         <h3 class="quiz__title">${title}</h3>
-    </article>`
+    </article>`;
 
-        allQuizzesEl.innerHTML += quizTemplate
+        allQuizzesEl.innerHTML += quizTemplate;
     });
 
-    printUserQuizzes()
+    printUserQuizzes();
 }
 
 function filterUserQuizzes(quiz) {
     if (localStorage.getItem(quiz.id.toString())) {
-        userQuizzes.push(quiz)
-        return false
+        userQuizzes.push(quiz);
+        return false;
     } else {
-        return true
+        return true;
     }
 }
 
 function printUserQuizzes() {
-    const userQuizzesEl = document.querySelector(".quizzes__user-quizzes")
+    const userQuizzesEl = document.querySelector(".quizzes__user-quizzes");
 
-    userQuizzesEl.innerHTML = ""
+    userQuizzesEl.innerHTML = "";
 
     if (userQuizzes.length === 0) {
-        const emptyQuizEl = document.querySelector(".quizzes__user-empty")
-        emptyQuizEl.classList.remove("hide")
-        const userQuizTitleEl = document.querySelector(".quizzes__title-container")
-        userQuizTitleEl.classList.add("hide")
+        const emptyQuizEl = document.querySelector(".quizzes__user-empty");
+        emptyQuizEl.classList.remove("hide");
+        const userQuizTitleEl = document.querySelector(".quizzes__title-container");
+        userQuizTitleEl.classList.add("hide");
     }
 
     userQuizzes.forEach(quiz => {
@@ -87,12 +83,12 @@ function printUserQuizzes() {
                 </path>
             </svg>
         </div>
-    </div></article>`
+    </div></article>`;
 
-        userQuizzesEl.innerHTML += userQuizTemplate
-    })
+        userQuizzesEl.innerHTML += userQuizTemplate;
+    });
 
-    userQuizzes = []
+    userQuizzes = [];
 }
 
 function openQuiz(quiz) {
@@ -100,88 +96,90 @@ function openQuiz(quiz) {
     showLoadingPage();
 
     // SetTimeout only for demonstration purposes (loading animation)
-    let promise = axios.get(API_BUZZQUIZZ + `/${quizID}`)
+    let promise = axios.get(API_BUZZQUIZZ + `/${quizID}`);
     setTimeout(() => { promise.then(displayQuiz) }, 500);
 }
 
 function displayQuiz(response) {
-    changePage("page-quizzes", "page-quiz")
+    changePage("page-quizzes", "page-quiz");
 
-    hideLoadingPage()
-    const quizPageEl = document.querySelector(".page-quiz")
+    hideLoadingPage();
+    const quizPageEl = document.querySelector(".page-quiz");
 
-    quiz = response.data
+    quiz = response.data;
 
     let title = quiz.title;
     let image = quiz.image;
     let questions = quiz.questions;
 
-    let templateQuizQuestions = ""
-    let templateQuizAnswers = ""
+    let templateQuizQuestions = "";
+    let templateQuizAnswers = "";
 
     questions.forEach(question => {
 
-        let answers = question.answers.sort(() => Math.random() - 0.5)
+        let answers = question.answers.sort(() => Math.random() - 0.5);
 
         answers.forEach(answer => {
-            templateQuizAnswers += `<div class="quiz__answer" data-identifier="answer" onclick="clickCardAnswer(this)" data-isCorrectAnswer="${answer.isCorrectAnswer}"><img class="quiz__answer-image" src=${answer.image} alt=""><p class="quiz__answer-text">${answer.text}</p></div>`
+            templateQuizAnswers += `<div class="quiz__answer" data-identifier="answer" onclick="clickCardAnswer(this)" data-isCorrectAnswer="${answer.isCorrectAnswer}"><img class="quiz__answer-image" src=${answer.image} alt=""><p class="quiz__answer-text">${answer.text}</p></div>`;
         })
 
-        templateQuizQuestions += `<article class="quiz__question" data-identifier="question" id="${" question-" + questions.indexOf(question)}"><h5 class="quiz__question-text" style="background-color:${question.color}" >${question.title}</h5><div class="quiz__answers">${templateQuizAnswers}</div></article>`
+        templateQuizQuestions += `<article class="quiz__question" data-identifier="question" id="${" question-" + questions.indexOf(question)}"><h5 class="quiz__question-text" style="background-color:${question.color}" >${question.title}</h5><div class="quiz__answers">${templateQuizAnswers}</div></article>`;
 
-        templateQuizAnswers = ""
+        templateQuizAnswers = "";
     })
 
-    let templateQuizGeneralInfo = `<div class="quiz"><section class="quiz__header"><img src="${image}" alt="Quiz image" class="quiz__header-image"><h4 class="quiz__header-title">${title}</h4></section><section class="quiz__questions questions">${templateQuizQuestions}</section></div><section class="quiz__result"></section><section class="quiz__restart"><button onclick="resetQuiz()" class="quiz__restart-button">Reiniciar Quizz</button><p class="quiz__restart-home" onclick="goToHome()">Voltar pra home</p>`
+    let templateQuizGeneralInfo = `<div class="quiz"><section class="quiz__header"><img src="${image}" alt="Quiz image" class="quiz__header-image"><h4 class="quiz__header-title">${title}</h4></section><section class="quiz__questions questions">${templateQuizQuestions}</section></div><section class="quiz__result"></section><section class="quiz__restart"><button onclick="resetQuiz()" class="quiz__restart-button">Reiniciar Quizz</button><p class="quiz__restart-home" onclick="goToHome()">Voltar pra home</p>`;
 
-    quizPageEl.innerHTML += templateQuizGeneralInfo
+    quizPageEl.innerHTML += templateQuizGeneralInfo;
 
-    document.querySelector(".quiz__header").scrollIntoView(false)
+    document.querySelector(".quiz__header").scrollIntoView(false);
 }
 
 function clickCardAnswer(answer) {
-    let totalQuestions = document.querySelectorAll(".quiz__question").length
-    counterAnswer += 1
-    eachAnswerPercentage = 100 / totalQuestions
+    let totalQuestions = document.querySelectorAll(".quiz__question").length;
+    counterAnswer += 1;
+    eachAnswerPercentage = 100 / totalQuestions;
 
     // Get all siblings of the answer and check the answer
-    let siblingAnswerEl = answer.parentNode.firstChild
+    let siblingAnswerEl = answer.parentNode.firstChild;
     while (siblingAnswerEl !== null) {
         if (siblingAnswerEl === answer) {
             if (answer.getAttribute("data-iscorrectanswer") === "true") {
-                correctAnswerPercentage += eachAnswerPercentage
-                answer.classList.add("correct")
+                correctAnswerPercentage += eachAnswerPercentage;
+                answer.classList.add("correct");
             } else {
-                answer.classList.add("wrong")
+                answer.classList.add("wrong");
             }
         } else {
             siblingAnswerEl.classList.add("not-selected");
 
             if (siblingAnswerEl.getAttribute("data-iscorrectanswer") === "true") {
                 siblingAnswerEl.classList.add("correct");
-            } else { siblingAnswerEl.classList.add("wrong"); }
+            } else {
+                siblingAnswerEl.classList.add("wrong");
+            }
         }
         siblingAnswerEl = siblingAnswerEl.nextElementSibling;
-    };
+    }
 
     // Scroll to next question after 2 seconds
-    let questionEl = answer.parentNode.parentNode.nextElementSibling
+    let questionEl = answer.parentNode.parentNode.nextElementSibling;
     if (questionEl !== null) {
-        setTimeout(() => questionEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }), 50)
+        setTimeout(() => questionEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }), 50);
     }
 
     // Calls the result function when counter gets to total of questions
     if (counterAnswer === totalQuestions) {
         // Get the integer of the percentage
-        let fixedPercentage = Math.ceil(correctAnswerPercentage)
-        setTimeout(showResult, 500, fixedPercentage)
+        let fixedPercentage = Math.ceil(correctAnswerPercentage);
+        setTimeout(showResult, 500, fixedPercentage);
     }
 }
 
 function showResult(correctAnswerPercentage) {
     let levels = quiz.levels;
 
-    let templateResult = ""
+    let templateResult = "";
 
     levels.forEach(level => {
         if (correctAnswerPercentage >= level.minValue) {
@@ -192,7 +190,8 @@ function showResult(correctAnswerPercentage) {
             <p class="quiz__result-text">${level.text}</p>
         </div>
     </article>
-</section>`}
+</section>`;
+        }
     })
 
     const quizResultEl = document.querySelector(".quiz__result");
@@ -206,23 +205,23 @@ function resetQuiz() {
     eachAnswerPercentage = 0;
     counterAnswer = 0;
 
-    const answerListEl = [...document.querySelectorAll(".quiz__answer")]
+    const answerListEl = [...document.querySelectorAll(".quiz__answer")];
 
     answerListEl.map((answerEl) => {
         if (answerEl.classList.contains("not-selected")) {
-            answerEl.classList.remove("not-selected")
+            answerEl.classList.remove("not-selected");
         }
         if (answerEl.classList.contains("wrong")) {
-            answerEl.classList.remove("wrong")
+            answerEl.classList.remove("wrong");
         } else if (answerEl.classList.contains("correct")) {
-            answerEl.classList.remove("correct")
+            answerEl.classList.remove("correct");
         }
     })
 
-    const quizHeaderEl = document.querySelector(".quiz__header")
+    const quizHeaderEl = document.querySelector(".quiz__header");
 
     if (quizHeaderEl) {
-        quizHeaderEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
+        quizHeaderEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
     }
 
 
@@ -231,19 +230,19 @@ function resetQuiz() {
     if (quizResultEl) {
         setTimeout(() => {
             quizResultEl.innerHTML = ""
-        }, 500)
+        }, 500);
     }
 }
 
 function goToHome() {
-    getAllQuizzes()
+    getAllQuizzes();
     resetQuiz();
-    const pagesList = [...document.querySelectorAll(".page")]
+    const pagesList = [...document.querySelectorAll(".page")];
     pagesList.forEach((pageOnList) => {
         if (pageOnList.classList.contains("page-quizzes")) {
-            pageOnList.classList.remove("hide")
+            pageOnList.classList.remove("hide");
         } else {
-            pageOnList.classList.add("hide")
+            pageOnList.classList.add("hide");
         }
     })
 
@@ -251,170 +250,6 @@ function goToHome() {
 
     quizPageEl.innerHTML = "";
 }
-
-function showLoading(dataAttribute) {
-    let parentDiv = (document.querySelector("[data-quizzes=" + dataAttribute + "]"))
-    parentDiv.querySelector(".loading.hide").classList.remove("hide")
-}
-
-function showLoadingPage() {
-    document.querySelector(".loading--page.hide").classList.remove("hide")
-}
-
-function showLoadingCard() {
-    document.querySelector(".loading--card.hide").classList.remove("hide")
-}
-
-function hideLoading(dataAttribute) {
-    let parentDiv = (document.querySelector("[data-quizzes=" + dataAttribute + "]"))
-    parentDiv.querySelector(".loading").classList.add("hide")
-}
-
-function hideLoadingPage() {
-    document.querySelector(".loading--page").classList.add("hide")
-}
-
-function hideLoadingCard() {
-    document.querySelector(".loading--card").classList.add("hide")
-}
-
-function changePage(pageOut, pageIn) {
-    document.querySelector("." + pageOut).classList.toggle("hide")
-    document.querySelector("." + pageIn).classList.toggle("hide")
-}
-
-// Temporary functions (for test purposes only)
-
-let resposta = null
-let dados = null
-let quizzDoCaio = {}
-let quizID = null
-
-function createQuizCaio() {
-    quizzDoCaio = {
-        title: "Título do quizz (eeee)",
-        image: "https://http.cat/411.jpg",
-        questions: [
-            {
-                title: "Título da pergunta 1",
-                color: "#123456",
-                answers: [
-                    {
-                        text: "Texto da resposta 1",
-                        image: "https://http.cat/411.jpg",
-                        isCorrectAnswer: true
-                    },
-                    {
-                        text: "Texto da resposta 2",
-                        image: "https://http.cat/412.jpg",
-                        isCorrectAnswer: false
-                    }
-                ]
-            },
-            {
-                title: "Título da pergunta 2",
-                color: "#123456",
-                answers: [
-                    {
-                        text: "Texto da resposta 1",
-                        image: "https://http.cat/411.jpg",
-                        isCorrectAnswer: true
-                    },
-                    {
-                        text: "Texto da resposta 2",
-                        image: "https://http.cat/412.jpg",
-                        isCorrectAnswer: false
-                    }
-                ]
-            },
-            {
-                title: "Título da pergunta 3",
-                color: "#123456",
-                answers: [
-                    {
-                        text: "Texto da resposta 1",
-                        image: "https://http.cat/411.jpg",
-                        isCorrectAnswer: true
-                    },
-                    {
-                        text: "Texto da resposta 2",
-                        image: "https://http.cat/412.jpg",
-                        isCorrectAnswer: false
-                    }
-                ]
-            }
-        ],
-        levels: [
-            {
-                title: "Título do nível 1",
-                image: "https://http.cat/411.jpg",
-                text: "Descrição do nível 1",
-                minValue: 0
-            },
-            {
-                title: "Título do nível 2",
-                image: "https://http.cat/412.jpg",
-                text: "Descrição do nível 2",
-                minValue: 50
-            }
-        ]
-    }
-
-    axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", quizzDoCaio).then((response) => {
-        let quizInString = JSON.stringify(quizzDoCaio)
-        localStorage.setItem(response.data.id.toString(), quizInString)
-        let secretKey = "id" + response.data.id.toString()
-        localStorage.setItem(secretKey, response.data.key.toString()
-        )
-    }).catch((error) => {
-        alert("Deu erro")
-        console.log(error)
-    })
-}
-
-function editQuiz(quizID) {
-    alert("soon you'll be able to edit the quiz")
-}
-
-function deleteQuiz(iconEl) {
-    let quizEl = iconEl.parentNode.parentNode
-    let quizID = quizEl.getAttribute("id")
-
-    if (window.confirm("Do you really want to delete this quiz?")) {
-        const deleteQuiz = axios.create({
-            headers: { "Secret-Key": localStorage.getItem("id" + quizID) }
-        })
-
-        let promise = deleteQuiz.delete("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + quizID)
-        showLoadingCard()
-
-        localStorage.removeItem("id" + quizID)
-        localStorage.removeItem(quizID)
-
-        setTimeout(() => {
-            promise.then(() => {
-                hideLoadingCard()
-                quizEl.remove()
-
-                const userQuizzesEl = document.querySelector(".quizzes__user-quizzes")
-
-                userQuizzesEl.innerHTML = ""
-
-                if (userQuizzes.length === 0) {
-                    const emptyQuizEl = document.querySelector(".quizzes__user-empty")
-                    emptyQuizEl.classList.remove("hide")
-                    const userQuizTitleEl = document.querySelector(".quizzes__title-container")
-                    userQuizTitleEl.classList.add("hide")
-                }
-            }).catch((error) => { console.log(error) })
-        }, 1500)
-
-
-    }
-}
-
-// initializing functions
-getAllQuizzes()
 
 function createQuiz() {
     document.querySelector(".page-quizzes").classList.add("hide");
@@ -425,33 +260,34 @@ function goToCreateQuestions() {
     document.querySelector(".create-quiz__basic-info").classList.add("hide");
     document.querySelector(".create-quiz__create-questions").classList.remove("hide");
 }
+
 function goToCreateLevels() {
     document.querySelector(".create-quiz__create-questions").classList.add("hide");
     document.querySelector(".create-quiz__create-levels").classList.remove("hide");
 }
+
 function goToCreationEnd() {
     document.querySelector(".create-quiz__create-levels").classList.add("hide");
     document.querySelector(".create-quiz__quiz-summary").classList.remove("hide");
 }
 
-
 function preventElements(event) {
-    event.preventDefault()
+    event.preventDefault();
 }
 
 document.getElementById("basicInfoForm").addEventListener("submit", function (event) {
-    event.preventDefault()
+    event.preventDefault();
 })
 document.getElementById("questionForm").addEventListener("submit", function (event) {
-    event.preventDefault()
+    event.preventDefault();
 })
 document.getElementById("levelForm").addEventListener("submit", function (event) {
     event.preventDefault();
 })
 
 function createContainerQuestion() {
-    let number = document.getElementById("qInput").value
-    let htmlResute = ""
+    let number = document.getElementById("qInput").value;
+    let htmlResute = "";
     for (i = 0; i < number; i++) {
         htmlResute += `<div class="create-quiz__question">
         <div class="create-quiz__question-header">
@@ -492,18 +328,18 @@ function createContainerQuestion() {
                     placeholder="URL da imagem 3" name="input">
             </div>
         </div>
-    </div>`
+    </div>`;
 
     }
-    let questionConteiner = document.getElementById("questionContainer")
-    questionConteiner.innerHTML = htmlResute
+    let questionConteiner = document.getElementById("questionContainer");
+    questionConteiner.innerHTML = htmlResute;
 
-    goToCreateQuestions()
+    goToCreateQuestions();
 }
 
 function createLevelQuiz() {
-    let number = document.getElementById("nInput").value
-    let htmlResute = ""
+    let number = document.getElementById("nInput").value;
+    let htmlResute = "";
     for (i = 0; i < number; i++) {
         htmlResute += `<div class="create-quiz__level">
         <div class="create-quiz__level-header">
@@ -522,23 +358,23 @@ function createLevelQuiz() {
                     placeholder="Descrição do nível" name="input">
             </div>
         </div>
-    </div>`
+    </div>`;
     }
 
-    let questionConteiner = document.getElementById("levelContainer")
-    questionConteiner.innerHTML = htmlResute
+    let questionConteiner = document.getElementById("levelContainer");
+    questionConteiner.innerHTML = htmlResute;
 
-    goToCreateLevels()
+    goToCreateLevels();
 }
 
 function saveAndGoToEnd() {
-    let questionNumber = document.getElementById("qInput").value
-    let levelNumber = document.getElementById("nInput").value
+    let questionNumber = document.getElementById("qInput").value;
+    let levelNumber = document.getElementById("nInput").value;
     let quizTitle = document.getElementById("quizTitle").value;
     let quizImage = document.getElementById("quizImage").value;
 
-    const questions = []
-    const levels = []
+    const questions = [];
+    const levels = [];
 
     for (let qIndex = 0; qIndex < questionNumber; qIndex++) {
         const title = document.getElementById(`title_${qIndex}`).value;
@@ -549,36 +385,36 @@ function saveAndGoToEnd() {
             text: document.getElementById(`right_answer_text_${qIndex}`).value,
             image: document.getElementById(`right_answer_image_${qIndex}`).value,
             isCorrectAnswer: true
-        }
+        };
         const firstWrongAnswer = {
             text: document.getElementById(`first_wrong_answer_text_${qIndex}`).value,
             image: document.getElementById(`first_wrong_answer_image_${qIndex}`).value,
             isCorrectAnswer: false
-        }
+        };
         const secondWrongAnswer = {
             text: document.getElementById(`second_wrong_answer_text_${qIndex}`).value,
             image: document.getElementById(`second_wrong_answer_image_${qIndex}`).value,
             isCorrectAnswer: false
-        }
+        };
         const thirdWrongAnswer = {
             text: document.getElementById(`third_wrong_answer_text_${qIndex}`).value,
             image: document.getElementById(`third_wrong_answer_image_${qIndex}`).value,
             isCorrectAnswer: false
-        }
+        };
 
         const answers = [rightAnswer, firstWrongAnswer];
         if (secondWrongAnswer.text !== "" && secondWrongAnswer.image !== "")
-            answers.push(secondWrongAnswer)
+            answers.push(secondWrongAnswer);
         if (thirdWrongAnswer.text !== "" && thirdWrongAnswer.image !== "")
-            answers.push(thirdWrongAnswer)
+            answers.push(thirdWrongAnswer);
 
         let question = {
             title: title,
             color: color,
             answers: answers
-        }
+        };
 
-        questions.push(question)
+        questions.push(question);
     }
 
     for (let nIndex = 0; nIndex < levelNumber; nIndex++) {
@@ -587,7 +423,7 @@ function saveAndGoToEnd() {
             image: document.getElementById(`image_${nIndex}`).value,
             text: document.getElementById(`text_${nIndex}`).value,
             minValue: document.getElementById(`minValue_${nIndex}`).value,
-        }
+        };
 
         levels.push(level);
     }
@@ -597,32 +433,106 @@ function saveAndGoToEnd() {
         image: quizImage,
         questions: questions,
         levels: levels
-    }
+    };
 
     axios.post(API_BUZZQUIZZ, quiz)
         .then((response) => {
-            let quizInString = JSON.stringify(quiz)
-            localStorage.setItem(response.data.id.toString(), quizInString)
-            let secretKey = "id" + response.data.id.toString()
-            localStorage.setItem(secretKey, response.data.key.toString()
-            )
-            goToCreationEnd()
+            let quizInString = JSON.stringify(quiz);
+            localStorage.setItem(response.data.id.toString(), quizInString);
+            let secretKey = "id" + response.data.id.toString();
+            localStorage.setItem(secretKey, response.data.key.toString());
+            goToCreationEnd();
         }).catch((error) => {
-            alert("Deu erro")
-            console.log(error)
-        })
+            alert("Deu erro");
+            console.log(error);
+        });
 }
 
 function Collapse(indice, type) {
-    console.log(indice, type)
-    const item = document.getElementById(`${type}_item_${indice}`)
-    const icon = document.getElementById(`${type}_icon_${indice}`)
+    console.log(indice, type);
+    const item = document.getElementById(`${type}_item_${indice}`);
+    const icon = document.getElementById(`${type}_icon_${indice}`);
     if (item.classList.contains("hide"))
-        item.classList.remove("hide")
+        item.classList.remove("hide");
     else
-        item.classList.add("hide")
+        item.classList.add("hide");
     if (icon.classList.contains("hide"))
-        icon.classList.remove("hide")
+        icon.classList.remove("hide");
     else
-        icon.classList.add("hide")
+        icon.classList.add("hide");
 }
+
+function editQuiz(quizID) {
+    alert("soon you'll be able to edit the quiz");
+}
+
+function deleteQuiz(iconEl) {
+    let quizEl = iconEl.parentNode.parentNode;
+    let quizID = quizEl.getAttribute("id");
+
+    if (window.confirm("Do you really want to delete this quiz?")) {
+        const deleteQuiz = axios.create({
+            headers: { "Secret-Key": localStorage.getItem("id" + quizID) }
+        });
+
+        let promise = deleteQuiz.delete("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + quizID)
+        showLoadingCard();
+
+        localStorage.removeItem("id" + quizID);
+        localStorage.removeItem(quizID);
+
+        setTimeout(() => {
+            promise.then(() => {
+                hideLoadingCard();
+                quizEl.remove();
+
+                const userQuizzesEl = document.querySelector(".quizzes__user-quizzes");
+
+                userQuizzesEl.innerHTML = "";
+
+                if (userQuizzes.length === 0) {
+                    const emptyQuizEl = document.querySelector(".quizzes__user-empty");
+                    emptyQuizEl.classList.remove("hide");
+                    const userQuizTitleEl = document.querySelector(".quizzes__title-container");
+                    userQuizTitleEl.classList.add("hide");
+                }
+            }).catch((error) => { console.log(error) })
+        }, 1500);
+
+
+    }
+}
+
+function showLoading(dataAttribute) {
+    let parentDiv = (document.querySelector("[data-quizzes=" + dataAttribute + "]"));
+    parentDiv.querySelector(".loading.hide").classList.remove("hide");
+}
+
+function showLoadingPage() {
+    document.querySelector(".loading--page.hide").classList.remove("hide");
+}
+
+function showLoadingCard() {
+    document.querySelector(".loading--card.hide").classList.remove("hide");
+}
+
+function hideLoading(dataAttribute) {
+    let parentDiv = (document.querySelector("[data-quizzes=" + dataAttribute + "]"));
+    parentDiv.querySelector(".loading").classList.add("hide");
+}
+
+function hideLoadingPage() {
+    document.querySelector(".loading--page").classList.add("hide");
+}
+
+function hideLoadingCard() {
+    document.querySelector(".loading--card").classList.add("hide");
+}
+
+function changePage(pageOut, pageIn) {
+    document.querySelector("." + pageOut).classList.toggle("hide");
+    document.querySelector("." + pageIn).classList.toggle("hide");
+}
+
+// initializing functions
+getAllQuizzes();
