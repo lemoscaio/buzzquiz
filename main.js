@@ -432,13 +432,13 @@ function createLevelQuiz() {
         </div>
         <div id="level_item_${i}" class="create-quiz__level-info">
             <div class="create-quiz__input-set">
-                <input id="title_${i}" class="create-quiz__level-title-input input" type="text" minlength="10"
+                <input id="level-title_${i}" class="create-quiz__level-title-input input" required type="text" minlength="10"
                     placeholder="Título do nível" name="input">
-                <input id="minValue_${i}" class="create-quiz__level-background-input input" type="number"
+                <input id="level-minValue_${i}" class="create-quiz__level-background-input input" required required min="0" max="100" type="number"
                     placeholder="% de acerto mínima" name="input">
-                <input id="image_${i}" class="create-quiz__level-image-input input" type="text"
+                <input id="level-image_${i}" class="create-quiz__level-image-input input" required type="text"
                     placeholder="URL da imagem do nível" name="input">
-                <input id="text_${i}" class="create-quiz__level-description-input input" minlength="30"
+                <input id="level-text_${i}" class="create-quiz__level-description-input input" required minlength="30"
                     placeholder="Descrição do nível" name="input">
             </div>
         </div>
@@ -503,10 +503,10 @@ function saveAndGoToEnd() {
 
     for (let nIndex = 0; nIndex < levelNumber; nIndex++) {
         const level = {
-            title: document.getElementById(`title_${nIndex}`).value,
-            image: document.getElementById(`image_${nIndex}`).value,
-            text: document.getElementById(`text_${nIndex}`).value,
-            minValue: document.getElementById(`minValue_${nIndex}`).value,
+            title: document.getElementById(`level-title_${nIndex}`).value,
+            image: document.getElementById(`level-image_${nIndex}`).value,
+            text: document.getElementById(`level-text_${nIndex}`).value,
+            minValue: document.getElementById(`level-minValue_${nIndex}`).value,
         }
 
         levels.push(level);
