@@ -1,5 +1,6 @@
 const API_BUZZQUIZZ = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
+
 let correctAnswerPercentage = 0;
 let eachAnswerPercentage = 0;
 
@@ -12,11 +13,16 @@ let counterAnswer = 0
 
 function getAllQuizzes() {
     let promise = axios.get(API_BUZZQUIZZ);
-    promise.then(printAllQuizzes);
 
+    showLoading("allQuizzes");
+
+    // SetTimeout only for demonstration purposes (loading animation)
+    setTimeout(() => { promise.then(printAllQuizzes) }, 1500);
 }
 
 function printAllQuizzes(response) {
+    hideLoading("allQuizzes")
+
     let quizzesList = response.data;
 
     quizzesList.forEach(quiz => {
@@ -37,19 +43,23 @@ function printAllQuizzes(response) {
 
 }
 
-function openQuiz(quiz) {
-    let quizID = quiz.id;
-    getQuiz(quizID);
+function getUserQuizzes() {
+    let promise = axios.get(API_BUZZQUIZZ);
+
+    showLoading("userQuizzes");
+
+    // SetTimeout only for demonstration purposes (loading animation)
+    setTimeout(() => { promise.then(printAllQuizzes) }, 1500);
 }
 
-function getQuiz(quizID) {
+function openQuiz(quiz) {
+    let quizID = quiz.id;
     let promise = axios.get(API_BUZZQUIZZ + `/${quizID}`);
     promise.then(displayQuiz);
-
 }
 
 function displayQuiz(response) {
-    slidePage()
+    changePage("page-quizzes", "page-quiz")
 
     const quizPageEl = document.querySelector(".page-quiz")
 
@@ -179,18 +189,122 @@ function resetQuiz() {
 
 function goToHome() {
     resetQuiz();
-    slidePage();
+    changePage("page-quiz", "page-quizzes");
 
     const quizPageEl = document.querySelector(".page-quiz");
 
     quizPageEl.innerHTML = "";
 }
 
+function showLoading(dataAttribute) {
+    let parentDiv = (document.querySelector("[data-quizzes=" + dataAttribute + "]"))
+    parentDiv.querySelector(".loading.hide").classList.remove("hide")
+}
+
+function hideLoading(dataAttribute) {
+    let parentDiv = (document.querySelector("[data-quizzes=" + dataAttribute + "]"))
+    parentDiv.querySelector(".loading").classList.add("hide")
+}
+
+function changePage(pageOut, pageIn) {
+    document.querySelector("." + pageOut).classList.toggle("hide")
+    document.querySelector("." + pageIn).classList.toggle("hide")
+}
 
 // Temporary functions (for test purposes only)
-function slidePage() {
-    document.querySelector(".page-quizzes").classList.toggle("hide")
-    document.querySelector(".page-quiz").classList.toggle("hide")
+
+let resposta = null
+let dados = null
+let quizzDoCaio = {}
+let quizID = null
+
+function createQuiz() {
+    quizzDoCaio = {
+        title: "Título do quizz (eeee)",
+        image: "https://http.cat/411.jpg",
+        questions: [
+            {
+                title: "Título da pergunta 1",
+                color: "#123456",
+                answers: [
+                    {
+                        text: "Texto da resposta 1",
+                        image: "https://http.cat/411.jpg",
+                        isCorrectAnswer: true
+                    },
+                    {
+                        text: "Texto da resposta 2",
+                        image: "https://http.cat/412.jpg",
+                        isCorrectAnswer: false
+                    }
+                ]
+            },
+            {
+                title: "Título da pergunta 2",
+                color: "#123456",
+                answers: [
+                    {
+                        text: "Texto da resposta 1",
+                        image: "https://http.cat/411.jpg",
+                        isCorrectAnswer: true
+                    },
+                    {
+                        text: "Texto da resposta 2",
+                        image: "https://http.cat/412.jpg",
+                        isCorrectAnswer: false
+                    }
+                ]
+            },
+            {
+                title: "Título da pergunta 3",
+                color: "#123456",
+                answers: [
+                    {
+                        text: "Texto da resposta 1",
+                        image: "https://http.cat/411.jpg",
+                        isCorrectAnswer: true
+                    },
+                    {
+                        text: "Texto da resposta 2",
+                        image: "https://http.cat/412.jpg",
+                        isCorrectAnswer: false
+                    }
+                ]
+            }
+        ],
+        levels: [
+            {
+                title: "Título do nível 1",
+                image: "https://http.cat/411.jpg",
+                text: "Descrição do nível 1",
+                minValue: 0
+            },
+            {
+                title: "Título do nível 2",
+                image: "https://http.cat/412.jpg",
+                text: "Descrição do nível 2",
+                minValue: 50
+            }
+        ]
+    }
+
+    axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", quizzDoCaio).then((response) => {
+        console.log(response)
+        resposta = response
+        dados = resposta.data
+        quizID = dados.id
+        localStorage.setItem("chave", dados.key)
+    })
+}
+
+function deleteQuiz(quizID) {
+
+    const deleteQuiz = axios.create({
+        headers: { "Secret-Key": localStorage.getItem("chave") }
+    })
+
+    deleteQuiz.delete("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + quizID)
+
 }
 
 // initializing functions
