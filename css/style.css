@@ -264,14 +264,17 @@ button {
   padding: 10px 10px 10px 12px;
 }
 .page.page-quizzes .quizzes .quiz.user-quiz:hover .modify-icons {
+  pointer-events: all;
   transform: translateX(0%);
   width: 12%;
 }
 .page.page-quizzes .quizzes .quiz.user-quiz:hover .modify-icons__edit-icon {
   display: block;
+  cursor: pointer;
 }
 .page.page-quizzes .quizzes .quiz.user-quiz:hover .modify-icons__delete-icon {
   display: block;
+  cursor: pointer;
 }
 @media screen and (min-width: 1000px) {
   .page.page-quiz .quiz {

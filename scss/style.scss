@@ -326,13 +326,16 @@ button {
 
                 &.user-quiz:hover {
                     .modify-icons {
+                        pointer-events: all;
                         transform: translateX(0%);
                         width: 12%;
                         &__edit-icon {
                             display: block;
+                            cursor: pointer;
                         }
                         &__delete-icon {
                             display: block;
+                            cursor: pointer;
                         }
                     }
                 }
