@@ -15,7 +15,7 @@
         <h1 class="header__title clickable" onclick="goToHome()">BuzzQuizz</h1>
     </header>
     <!-- All quizzes page -->
-    <main class="page page-quizzes">
+    <main class="page page-quizzes hide">
         <!-- User quizzes -->
         <div class="quizzes" data-identifier="user-quizzes" data-quizzes="userQuizzes">
             <!-- Title -->
@@ -76,11 +76,11 @@
         <!-- Added with javascript -->
     </main>
     <!-- Quiz creation page -->
-    <main class="page page-create-quiz hide">
+    <main class="page page-create-quiz ">
 
         <div class="create-quiz">
             <!-- Basic info -->
-            <form onsubmit="createContainerQuestion()" id="basicInfoForm">
+            <form onsubmit="ValidationBasicInfo()" id="basicInfoForm">
                 <div class="create-quiz__basic-info">
                     <div class="create-quiz__page-title">
                         <p>Comece pelo começo</p>
@@ -110,7 +110,7 @@
                     <p>Crie suas perguntas</p>
                 </h2>
 
-                <form onsubmit="createLevelQuiz()" id="questionForm">
+                <form onsubmit="ValidationQuestionCreation()" id="questionForm">
                     <div>
                         <div id="questionContainer">
 
