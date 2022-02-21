@@ -359,12 +359,11 @@ button {
 .page.page-quiz .quiz__answers {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
   margin-top: 15px;
 }
 .page.page-quiz .quiz__answer {
-  width: 49.1%;
+  width: 49%;
 }
 .page.page-quiz .quiz__answer-image {
   height: 113px;

@@ -97,7 +97,7 @@ button {
 
 .page {
     position: relative;
-    top: 69px; //TEMPORÁRIO
+    top: 69px; 
     background-color: $color-background;
 
     height: calc(100% - 69px);
@@ -443,15 +443,15 @@ button {
             &__answers {
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: center;
+                justify-content: space-between;
 
-                gap: 12px;
+                // gap: 12px;
 
                 margin-top: 15px;
             }
 
             &__answer {
-                width: 49.1%; // TEMPORÁRIO
+                width: 49%; // TEMPORÁRIO
             }
 
             &__answer-image {
@@ -496,7 +496,7 @@ button {
             }
 
             &__result-title {
-                background-color: #434ca0; //TEMPORÁRIO
+                background-color: #434ca0; 
 
                 text-align: center;
                 color: white;

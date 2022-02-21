@@ -38,7 +38,7 @@ function printAllQuizzes(response) {
         let title = quiz.title;
         let image = quiz.image;
 
-        let quizTemplate = `<article class="quizzes__quiz quiz" id="${id}" onclick="openQuiz(this)">
+        let quizTemplate = `<article class="quizzes__quiz quiz" id="${id}" data-identifier="quizz-card" onclick="openQuiz(this)">
         <img src="${image}" alt="Quizz image" class="quiz__image">
         <h3 class="quiz__title">${title}</h3>
     </article>`
@@ -75,7 +75,7 @@ function printUserQuizzes() {
         let image = quiz.image;
         let id = quiz.id;
 
-        let userQuizTemplate = `<article class="quizzes__quiz quiz user-quiz" id="${id}"  data-userQuiz="true" onclick="openQuiz(this)"><img src=${image} alt="Quiz image" class="quiz__image"><h3 class="quiz__title">${title}</h3><div class="quiz__modify-icons modify-icons"><img class="modify-icons__edit-icon" onclick="editQuiz(this), event.stopPropagation()" src="images/icons/edit-white.svg" alt="Edit icon"><img class="modify-icons__delete-icon" onclick="deleteQuiz(this), event.stopPropagation()" src="images/icons/delete-white.svg" alt="Delete icon"></div><div class="loading loading--card hide">
+        let userQuizTemplate = `<article class="quizzes__quiz quiz user-quiz" id="${id}" data-userQuiz="true" data-identifier="quizz-card" onclick="openQuiz(this)"><img src=${image} alt="Quiz image" class="quiz__image"><h3 class="quiz__title">${title}</h3><div class="quiz__modify-icons modify-icons"><img class="modify-icons__edit-icon" onclick="editQuiz(this), event.stopPropagation()" src="images/icons/edit-white.svg" alt="Edit icon"><img class="modify-icons__delete-icon" onclick="deleteQuiz(this), event.stopPropagation()" src="images/icons/delete-white.svg" alt="Delete icon"></div><div class="loading loading--card hide">
         <div class="loader loader--style3" title="2">
             <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
@@ -124,10 +124,10 @@ function displayQuiz(response) {
         let answers = question.answers.sort(() => Math.random() - 0.5)
 
         answers.forEach(answer => {
-            templateQuizAnswers += `<div class="quiz__answer" onclick="clickCardAnswer(this)" data-isCorrectAnswer="${answer.isCorrectAnswer}"><img class="quiz__answer-image" src=${answer.image} alt=""><p class="quiz__answer-text">${answer.text}</p></div>`
+            templateQuizAnswers += `<div class="quiz__answer" data-identifier="answer" onclick="clickCardAnswer(this)" data-isCorrectAnswer="${answer.isCorrectAnswer}"><img class="quiz__answer-image" src=${answer.image} alt=""><p class="quiz__answer-text">${answer.text}</p></div>`
         })
 
-        templateQuizQuestions += `<article class="quiz__question" id="${" question-" + questions.indexOf(question)}"><h5 class="quiz__question-text" style="background-color:${question.color}" >${question.title}</h5><div class="quiz__answers">${templateQuizAnswers}</div></article>`
+        templateQuizQuestions += `<article class="quiz__question" data-identifier="question" id="${" question-" + questions.indexOf(question)}"><h5 class="quiz__question-text" style="background-color:${question.color}" >${question.title}</h5><div class="quiz__answers">${templateQuizAnswers}</div></article>`
 
         templateQuizAnswers = ""
     })
@@ -185,7 +185,7 @@ function showResult(correctAnswerPercentage) {
 
     levels.forEach(level => {
         if (correctAnswerPercentage >= level.minValue) {
-            templateResult = `<article class="quiz__result-card">
+            templateResult = `<article class="quiz__result-card" data-identifier="quizz-result">
         <h5 class="quiz__result-title">${correctAnswerPercentage}% de acerto: ${level.title}</h5>
         <div class="quiz__result-info">
             <img class="quiz__result-image" src=${level.image} alt="">
@@ -219,7 +219,12 @@ function resetQuiz() {
         }
     })
 
-    document.querySelector(".quiz__header").scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
+    const quizHeaderEl = document.querySelector(".quiz__header")
+
+    if (quizHeaderEl) {
+        quizHeaderEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
+    }
+
 
     const quizResultEl = document.querySelector(".quiz__result");
 
@@ -233,7 +238,14 @@ function resetQuiz() {
 function goToHome() {
     getAllQuizzes()
     resetQuiz();
-    changePage("page-quiz", "page-quizzes");
+    const pagesList = [...document.querySelectorAll(".page")]
+    pagesList.forEach((pageOnList) => {
+        if (pageOnList.classList.contains("page-quizzes")) {
+            pageOnList.classList.remove("hide")
+        } else {
+            pageOnList.classList.add("hide")
+        }
+    })
 
     const quizPageEl = document.querySelector(".page-quiz");
 
@@ -368,26 +380,37 @@ function deleteQuiz(iconEl) {
     let quizEl = iconEl.parentNode.parentNode
     let quizID = quizEl.getAttribute("id")
 
-    let deleteAnswer = prompt("Do you really want to delete this quiz? Y for Yes / N for No")
+    if (window.confirm("Do you really want to delete this quiz?")) {
+        const deleteQuiz = axios.create({
+            headers: { "Secret-Key": localStorage.getItem("id" + quizID) }
+        })
 
-    if (deleteAnswer !== "Y") return
+        let promise = deleteQuiz.delete("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + quizID)
+        showLoadingCard()
 
-    const deleteQuiz = axios.create({
-        headers: { "Secret-Key": localStorage.getItem("id" + quizID) }
-    })
+        localStorage.removeItem("id" + quizID)
+        localStorage.removeItem(quizID)
 
-    let promise = deleteQuiz.delete("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + quizID)
-    showLoadingCard()
+        setTimeout(() => {
+            promise.then(() => {
+                hideLoadingCard()
+                quizEl.remove()
 
-    localStorage.removeItem("id" + quizID)
-    localStorage.removeItem(quizID)
+                const userQuizzesEl = document.querySelector(".quizzes__user-quizzes")
 
-    setTimeout(() => {
-        promise.then(() => {
-            hideLoadingCard()
-            quizEl.remove()
-        }).catch((error) => { console.log(error) })
-    }, 1500)
+                userQuizzesEl.innerHTML = ""
+
+                if (userQuizzes.length === 0) {
+                    const emptyQuizEl = document.querySelector(".quizzes__user-empty")
+                    emptyQuizEl.classList.remove("hide")
+                    const userQuizTitleEl = document.querySelector(".quizzes__title-container")
+                    userQuizTitleEl.classList.add("hide")
+                }
+            }).catch((error) => { console.log(error) })
+        }, 1500)
+
+
+    }
 }
 
 // initializing functions

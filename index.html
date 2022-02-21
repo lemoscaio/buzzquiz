@@ -17,11 +17,11 @@
     <!-- All quizzes page -->
     <main class="page page-quizzes">
         <!-- User quizzes -->
-        <div class="quizzes" data-quizzes="userQuizzes">
+        <div class="quizzes" data-identifier="user-quizzes" data-quizzes="userQuizzes">
             <!-- Title -->
             <div class="quizzes__title-container">
                 <h2 class="quizzes__title">Seus Quizzes</h2>
-                <button class="quizzes__create-quizz--small" onclick="createQuiz()">+</button>
+                <button class="quizzes__create-quizz--small" data-identifier="create-quizz" onclick="createQuiz()">+</button>
             </div>
             <!-- Loading -->
             <div class="loading hide">
@@ -40,7 +40,7 @@
             <!-- Empty -->
             <article class="quizzes__user-empty hide">
                 <p class="quizzes__empty-message">Você não criou nenhum quizz ainda :(</p>
-                <button class="quizzes__create-quizz" onclick="createQuiz()">Criar Quizz</button>
+                <button class="quizzes__create-quizz" data-identifier="create-quizz" onclick="createQuiz()">Criar Quizz</button>
             </article>
             <!-- User quizzes -->
             <section class="quizzes__user-quizzes">
@@ -49,7 +49,7 @@
             </section>
         </div>
         <!-- All quizes -->
-        <div class="quizzes" data-quizzes="allQuizzes">
+        <div class="quizzes" data-quizzes="allQuizzes" data-identifier="general-quizzes">
             <div class="quizzes__title-container">
                 <h2 class="quizzes__title">Todos os Quizzes</h2>
             </div>
