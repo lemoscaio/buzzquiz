@@ -333,7 +333,7 @@ body {
   margin-top: 15px;
 }
 .page.page-quiz .quiz__answer {
-  flex-basis: calc(50% - 6px);
+  width: 25%;
 }
 .page.page-quiz .quiz__answer-image {
   height: 113px;

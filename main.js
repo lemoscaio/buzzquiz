@@ -336,18 +336,17 @@ function deleteQuiz(quizID) {
 getAllQuizzes()
 
 
-function GoToCreateQuestions() {
-
-    document.querySelector(".basic-info__container").classList.add("hide");
-    document.querySelector(".Create-questions").classList.remove("hide");
+function goToCreateQuestions() {
+    document.querySelector(".create-quiz__basic-info").classList.add("hide");
+    document.querySelector(".create-quiz__create-questions").classList.remove("hide");
 }
-function GoToCreateLevels() {
-    document.querySelector(".Create-questions").classList.add("hide");
-    document.querySelector(".Create-levels").classList.remove("hide");
+function goToCreateLevels() {
+    document.querySelector(".create-quiz__create-questions").classList.add("hide");
+    document.querySelector(".create-quiz__create-levels").classList.remove("hide");
 }
-function GotoCreantionEnd() {
-    document.querySelector(".Create-levels").classList.add("hide");
-    document.querySelector(".Creation-End").classList.remove("hide");
+function goToCreationEnd() {
+    document.querySelector(".create-quiz__create-levels").classList.add("hide");
+    document.querySelector(".create-quiz__quiz-summary").classList.remove("hide");
 }
 
 function botaoteste() {
@@ -355,6 +354,178 @@ function botaoteste() {
     document.querySelector(".Create-Quiz").classList.remove("hide");
 
 }
+
+function preventElements(event) {
+    event.preventDefault()
+}
+
+document.getElementById("basicInfoForm").addEventListener("submit", function (event) {
+    event.preventDefault()
+})
+document.getElementById("questionForm").addEventListener("submit", function (event) {
+    event.preventDefault()
+})
+document.getElementById("levelForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+})
+
+function createContainerQuestion() {
+    let number = document.getElementById("qInput").value
+    let htmlResute = ""
+    for (i = 0; i < number; i++) {
+        htmlResute += `<div class="create-quiz__question">
+        <div class="create-quiz__question-header">
+            <h2 class="create-quiz__input-title">Pergunta ${i + 1} <span class="create-quiz__edit-icon"></span>
+            </h2>
+        </div>
+        <div class="create-quiz__question-info">
+            <div class="create-quiz__input-set">
+                <input id="title_${i}" class="create-quiz__question-title-input input" type="text" required minlength="20"
+                    placeholder="Texto da pergunta" name="input">
+                <input id="color_${i}" class="create-quiz__question-background-input input" type="text" required
+                    placeholder="Cor de fundo da pergunta" name="input">
+            </div>
+            <div class="create-quiz__input-set">
+                <h2 class="create-quiz__input-title">Resposta correta</h2>
+                <input id="right_answer_text_${i}" class="create-quiz__correct-answer-input input" type="text" required
+                    placeholder="Resposta correta" name="input">
+                <input id="right_answer_image_${i}" class="create-quiz__image-input input" type="url" required
+                    placeholder="URL da imagem" name="input">
+            </div>
+            <h2 class="create-quiz__input-title">Respostas incorretas</h2>
+            <div class="create-quiz__input-set">
+                <input id="first_wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" required
+                    placeholder="Resposta incorreta 1" name="input">
+                <input id="first_wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" required
+                    placeholder="URL da imagem 1" name="input">
+            </div>
+            <div class="create-quiz__input-set">
+                <input id="second_wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" 
+                    placeholder="Resposta incorreta 2" name="input">
+                <input id="second_wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" 
+                    placeholder="URL da imagem 2" name="input">
+            </div>
+            <div class="create-quiz__input-set">
+                <input id="third_wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" 
+                    placeholder="Resposta incorreta 3" name="input">
+                <input id="third_wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" 
+                    placeholder="URL da imagem 3" name="input">
+            </div>
+        </div>
+    </div>`
+
+    }
+    let questionConteiner = document.getElementById("questionContainer")
+    questionConteiner.innerHTML = htmlResute
+
+    goToCreateQuestions()
+}
+
+function createLevelQuiz() {
+    let number = document.getElementById("nInput").value
+    let htmlResute = ""
+    for (i = 0; i < number; i++) {
+        htmlResute += `<div class="create-quiz__level">
+        <div class="create-quiz__level-header">
+            <h2 class="create-quiz__input-title">Nível ${i + 1} <span class="create-quiz__edit-icon"></span>
+            </h2>
+        </div>
+        <div class="create-quiz__level-info">
+            <div class="create-quiz__input-set">
+                <input id="title_${i}" class="create-quiz__level-title-input input" type="text" minlength="10"
+                    placeholder="Título do nível" name="input">
+                <input id="minValue_${i}" class="create-quiz__level-background-input input" type="number"
+                    placeholder="% de acerto mínima" name="input">
+                <input id="image_${i}" class="create-quiz__level-image-input input" type="text"
+                    placeholder="URL da imagem do nível" name="input">
+                <input id="text_${i}" class="create-quiz__level-description-input input" minlength="30"
+                    placeholder="Descrição do nível" name="input">
+            </div>
+        </div>
+    </div>`
+    }
+
+    let questionConteiner = document.getElementById("levelContainer")
+    questionConteiner.innerHTML = htmlResute
+
+    goToCreateLevels()
+}
+
+function saveAndGoToEnd() {
+    let questionNumber = document.getElementById("qInput").value
+    let levelNumber = document.getElementById("nInput").value
+    let quizTitle = document.getElementById("quizTitle").value;
+    let quizImage = document.getElementById("quizImage").value;
+
+    const questions = []
+    const levels = []
+
+    for (let qIndex = 0; qIndex < questionNumber; qIndex++) {
+        const title = document.getElementById(`title_${qIndex}`).value;
+        const color = document.getElementById(`color_${qIndex}`).value;
+
+        //Answers
+        const rightAnswer = {
+            text: document.getElementById(`right_answer_text_${qIndex}`).value,
+            image: document.getElementById(`right_answer_image_${qIndex}`).value,
+            isCorrectAnswer: true
+        }
+        const firstWrongAnswer = {
+            text: document.getElementById(`first_wrong_answer_text_${qIndex}`).value,
+            image: document.getElementById(`first_wrong_answer_image_${qIndex}`).value,
+            isCorrectAnswer: false
+        }
+        const secondWrongAnswer = {
+            text: document.getElementById(`second_wrong_answer_text_${qIndex}`).value,
+            image: document.getElementById(`second_wrong_answer_image_${qIndex}`).value,
+            isCorrectAnswer: false
+        }
+        const thirdWrongAnswer = {
+            text: document.getElementById(`third_wrong_answer_text_${qIndex}`).value,
+            image: document.getElementById(`third_wrong_answer_image_${qIndex}`).value,
+            isCorrectAnswer: false
+        }
+
+        const answers = [rightAnswer, firstWrongAnswer];
+        if(secondWrongAnswer.text !== "" && secondWrongAnswer.image !== "")
+            answers.push(secondWrongAnswer)
+        if(thirdWrongAnswer.text !== "" && thirdWrongAnswer.image !== "")
+            answers.push(thirdWrongAnswer)
+
+        let question = {
+            title: title,
+            color: color,
+            answers: answers
+        }
+
+        questions.push(question)
+    }
+
+    for (let nIndex = 0; nIndex < levelNumber; nIndex++) {
+        const level = {
+            title: document.getElementById(`title_${nIndex}`).value,
+            image: document.getElementById(`image_${nIndex}`).value,
+            text: document.getElementById(`text_${nIndex}`).value,
+            minValue: document.getElementById(`minValue_${nIndex}`).value,
+        }
+
+        levels.push(level);
+    }
+
+    const quiz = {
+        title: quizTitle,
+        image: quizImage,
+        questions: questions,
+        levels: levels
+    }
+
+    axios.post(API_BUZZQUIZZ, quiz)
+        .then(goToCreationEnd).catch(() => alert("Deu erro"))
+
+}
+
+
+
 function Collapse() {
 
 }
