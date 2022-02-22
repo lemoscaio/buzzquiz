@@ -285,6 +285,7 @@ document.getElementById("questionForm").addEventListener("submit", function (eve
 document.getElementById("levelForm").addEventListener("submit", function (event) {
     event.preventDefault();
 })
+
 // rendezirando paginas dinamicas da Criação de quiz
 
 // Pagina de Questoes 
@@ -294,7 +295,7 @@ function createContainerQuestion() {
     for (i = 0; i < number; i++) {
         htmlResute += `<div class="create-quiz__question">
         <div class="create-quiz__question-header">
-            <h2 onclick="Collapse(${i}, 'question')" class="create-quiz__input-title">Pergunta ${i + 1} <span id="question_icon_${i}" class="create-quiz__edit-icon hide"></span>
+            <h2 onclick="Collapse(${i}, 'question')" class="create-quiz__input-title">Pergunta ${i + 1}<span id="question_icon_${i}" class="create-quiz__edit-icon hide"></span>
             </h2>
         </div>
         <div id="question_item_${i}" class="create-quiz__question-info">
@@ -313,26 +314,25 @@ function createContainerQuestion() {
             </div>
             <h2 class="create-quiz__input-title">Respostas incorretas</h2>
             <div class="create-quiz__input-set">
-                <input id="first_wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" required
+                <input id="wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" required
                     placeholder="Resposta incorreta 1" name="input">
-                <input id="first_wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" required
+                <input id="wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" required
                     placeholder="URL da imagem 1" name="input">
             </div>
             <div class="create-quiz__input-set">
-                <input id="second_wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" 
-                    placeholder="Resposta incorreta 2" name="input">
-                <input id="second_wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" 
+                <input id="wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" 
+                    placeholder="Resposta incorreta 2 (opcional)" name="input">
+                <input id="wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" 
                     placeholder="URL da imagem 2" name="input">
             </div>
             <div class="create-quiz__input-set">
-                <input id="third_wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" 
-                    placeholder="Resposta incorreta 3" name="input">
-                <input id="third_wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" 
+                <input id="wrong_answer_text_${i}" class="create-quiz__wrong-answer-input input" type="text" 
+                    placeholder="Resposta incorreta 3 (opcional)" name="input">
+                <input id="wrong_answer_image_${i}" class="create-quiz__image-input input" type="url" 
                     placeholder="URL da imagem 3" name="input">
             </div>
         </div>
     </div>`;
-
     }
     let questionConteiner = document.getElementById("questionContainer");
     questionConteiner.innerHTML = htmlResute;
@@ -391,18 +391,18 @@ function saveAndGoToEnd() {
             isCorrectAnswer: true
         };
         const firstWrongAnswer = {
-            text: document.getElementById(`first_wrong_answer_text_${qIndex}`).value,
-            image: document.getElementById(`first_wrong_answer_image_${qIndex}`).value,
+            text: document.getElementById(`wrong_answer_text_${qIndex}`).value,
+            image: document.getElementById(`wrong_answer_image_${qIndex}`).value,
             isCorrectAnswer: false
         };
         const secondWrongAnswer = {
-            text: document.getElementById(`second_wrong_answer_text_${qIndex}`).value,
-            image: document.getElementById(`second_wrong_answer_image_${qIndex}`).value,
+            text: document.getElementById(`wrong_answer_text_${qIndex}`).value,
+            image: document.getElementById(`wrong_answer_image_${qIndex}`).value,
             isCorrectAnswer: false
         };
         const thirdWrongAnswer = {
-            text: document.getElementById(`third_wrong_answer_text_${qIndex}`).value,
-            image: document.getElementById(`third_wrong_answer_image_${qIndex}`).value,
+            text: document.getElementById(`wrong_answer_text_${qIndex}`).value,
+            image: document.getElementById(`wrong_answer_image_${qIndex}`).value,
             isCorrectAnswer: false
         };
 
@@ -474,27 +474,27 @@ function deleteQuiz(iconEl) {
     let quizEl = iconEl.parentNode.parentNode;
     let quizID = quizEl.getAttribute("id");
 
+    const quizQuantity = document.querySelectorAll(".user-quiz").length
+
     if (window.confirm("Do you really want to delete this quiz?")) {
         const deleteQuiz = axios.create({
             headers: { "Secret-Key": localStorage.getItem("id" + quizID) }
         });
 
         let promise = deleteQuiz.delete("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/" + quizID)
-        showLoadingCard();
+        showLoadingCard(quizEl);
 
         localStorage.removeItem("id" + quizID);
         localStorage.removeItem(quizID);
 
         setTimeout(() => {
             promise.then(() => {
-                hideLoadingCard();
+                hideLoadingCard(quizEl);
                 quizEl.remove();
 
                 const userQuizzesEl = document.querySelector(".quizzes__user-quizzes");
 
-                userQuizzesEl.innerHTML = "";
-
-                if (userQuizzes.length === 0) {
+                if (quizQuantity === 1) {
                     const emptyQuizEl = document.querySelector(".quizzes__user-empty");
                     emptyQuizEl.classList.remove("hide");
                     const userQuizTitleEl = document.querySelector(".quizzes__title-container");
@@ -516,8 +516,8 @@ function showLoadingPage() {
     document.querySelector(".loading--page.hide").classList.remove("hide");
 }
 
-function showLoadingCard() {
-    document.querySelector(".loading--card.hide").classList.remove("hide");
+function showLoadingCard(quizEl) {
+    quizEl.querySelector(".loading--card.hide").classList.remove("hide");
 }
 
 function hideLoading(dataAttribute) {
@@ -529,8 +529,8 @@ function hideLoadingPage() {
     document.querySelector(".loading--page").classList.add("hide");
 }
 
-function hideLoadingCard() {
-    document.querySelector(".loading--card").classList.add("hide");
+function hideLoadingCard(quizEl) {
+    quizEl.querySelector(".loading--card").classList.add("hide");
 }
 
 function changePage(pageOut, pageIn) {
@@ -539,130 +539,120 @@ function changePage(pageOut, pageIn) {
 }
 
 // Validações
-function isValidURL() {
-    const url = document.getElementById("quizImage").value
-    var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-    return (res !== null)
-};
-
-function ValidationColor() {
-    let number = document.getElementById("qInput").value
-    const regex = /#([0-9a-fA-F]{6})/g
-    for (i = 0; i < number; i++) {
-
-        const color = document.getElementById(`color_${i}`).value
-        if (color.match(regex) == null) {
-            return false
-        }
-
-
-    }
-    return true
-}
-
-function ValidationNumber() {
-    const question = document.getElementById("qInput").value
-    const level = document.getElementById("nInput").value
-    if (question < 3 || level < 2) {
-        return false
-    }
-    return true
-}
-
-function ValidationQuizTitle() {
-    const title = document.getElementById("quizTitle").value
+function validationQuizTitle() {
+    const title = document.getElementById("quizTitle").value;
     if (title < 20 || title > 65) {
-        return false
+        return false;
     }
-    return true
+    return true;
 }
 
-function ValidationQuestiontitle() {
-    let number = document.getElementById("qInput").value
+function isValidURL() {
+    const url = document.getElementById("quizImage").value;
+    var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    return (res !== null);
+};
+
+function validationNumber() {
+    const question = document.getElementById("qInput").value;
+    const level = document.getElementById("nInput").value;
+    if (question < 3 || level < 2) {
+        return false;
+    }
+    return true;
+}
+
+function validationBasicInfo() {
+    if (validationQuizTitle() && isValidURL() && validationNumber()) {
+        createContainerQuestion();
+    }
+    else {
+        alert("Erro!");
+    }
+}
+
+function validationQuestionTitle() {
+    let number = document.getElementById("qInput").value;
     for (i = 0; i < number; i++) {
-        const title = document.getElementById(`title_${i}`).value
+        const title = document.getElementById(`title_${i}`).value;
         if (title < 20) {
-            return false
+            return false;
         }
     }
-    return true
+    return true;
 }
-function ValidationLeveltitle() {
-    let number = document.getElementById("nInput").value
-    for (i = 0; i < number; i++) {
-        const title = document.getElementById(`level-title_${i}`).value
-        if (title < 10) {
-            return false
-        }
-    }
-    return true
-}
-function ValidationLeveltext() {
-    let number = document.getElementById("nInput").value
-    for (i = 0; i < number; i++) {
-        const text = document.getElementById(`level-text_${i}`).value
-        if (text < 30) {
-            return false
-        }
-    }
-    return true
-}
-function ValidationLevelValue() {
-    let number = document.getElementById("nInput").value
-    const maxValue = document.getElementById(`level-minValue_${number - 1}`).value
-    for (i = 0; i < number; i++) {
-        const minValue = document.getElementById(`level-minValue_${i}`).value
-        if (minValue > 100 || maxValue !== 0) {
-            return false
-        }
 
+function validationColor() {
+    let number = document.getElementById("qInput").value;
+    const regex = /#([0-9a-fA-F]{6})/g;
+    for (i = 0; i < number; i++) {
+        const color = document.getElementById(`color_${i}`).value;
+        if (color.match(regex) == null) {
+            return false;
+        }
     }
-    return true
+    return true;
 }
+
 function isValidURLimageQR() {
-    let number = document.getElementById("qInput").value
+    let number = document.getElementById("qInput").value;
     for (i = 0; i < number; i++) {
-        const url = document.getElementById(`right_answer_image_${i}`).value
+        const url = document.getElementById(`right_answer_image_${i}`).value;
 
         var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-        return (res !== null)
+        return (res !== null);
     }
+}
 
-};
 function isValidURLimageQW() {
-    let number = document.getElementById("qInput").value
+    let number = document.getElementById("qInput").value;
     for (i = 0; i < number; i++) {
-        const url = document.getElementById(`wrong_answer_image_${i}`).value
+        const url = document.getElementById(`wrong_answer_image_${i}`).value;
 
         var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-        return (res !== null)
+        return (res !== null);
     }
-
-};
-
-function ValidationBasicInfo() {
-    if (ValidationQuizTitle() && isValidURL() && ValidationNumber()) {
-        createContainerQuestion()
-    }
-    else {
-        alert("Erro!")
-    }
-
-
 }
 
-function ValidationQuestionCreation() {
-    if (ValidationQuestiontitle() && ValidationColor() && isValidURLimageQR() && isValidURLimageQW()) {
-        createLevelQuiz()
+function validationQuestionCreation() {
+    if (validationQuestionTitle() && validationColor() && isValidURLimageQR() && isValidURLimageQW()) {
+        createLevelQuiz();
     }
     else {
-        alert("Erro!")
+        alert("Erro!");
     }
-
 }
 
-function ValidationLevelCreation() {
-
+function validationLevelTitle() {
+    let number = document.getElementById("nInput").value;
+    for (i = 0; i < number; i++) {
+        const title = document.getElementById(`level-title_${i}`).value;
+        if (title < 10) {
+            return false;
+        }
+    }
+    return true;
+}
+function validationLevelText() {
+    let number = document.getElementById("nInput").value;
+    for (i = 0; i < number; i++) {
+        const text = document.getElementById(`level-text_${i}`).value;
+        if (text < 30) {
+            return false;
+        }
+    }
+    return true;
+}
+function validationLevelValue() {
+    let number = document.getElementById("nInput").value;
+    const maxValue = document.getElementById(`level-minValue_${number - 1}`).value;
+    for (i = 0; i < number; i++) {
+        const minValue = document.getElementById(`level-minValue_${i}`).value;
+        if (minValue > 100 || maxValue !== 0) {
+            return false;
+        }
+    }
+    return true;
 }
 
 // initializing functions
