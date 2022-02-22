@@ -159,7 +159,7 @@ button {
 @media screen and (min-width: 1000px) {
   .page.page-quizzes .quizzes__title-container {
     justify-content: flex-start;
-    margin: 7px 0;
+    margin: 7px 0 20px;
   }
 }
 .page.page-quizzes .quizzes__create-quizz {

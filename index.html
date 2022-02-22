@@ -12,7 +12,7 @@
 
 <body>
     <header class="header">
-        <h1 class="header__title clickable" onclick="goToHome()">BuzzQuizz</h1>
+        <h1 class="header__title clickable" onclick="window.location.reload()">BuzzQuizz</h1>
     </header>
     <!-- All quizzes page -->
     <main class="page page-quizzes">
@@ -21,7 +21,8 @@
             <!-- Title -->
             <div class="quizzes__title-container">
                 <h2 class="quizzes__title">Seus Quizzes</h2>
-                <button class="quizzes__create-quizz--small" data-identifier="create-quizz" onclick="createQuiz()">+</button>
+                <button class="quizzes__create-quizz--small" data-identifier="create-quizz"
+                    onclick="createQuiz()">+</button>
             </div>
             <!-- Loading -->
             <div class="loading hide">
@@ -40,12 +41,13 @@
             <!-- Empty -->
             <article class="quizzes__user-empty hide">
                 <p class="quizzes__empty-message">Você não criou nenhum quizz ainda :(</p>
-                <button class="quizzes__create-quizz" data-identifier="create-quizz" onclick="createQuiz()">Criar Quizz</button>
+                <button class="quizzes__create-quizz" data-identifier="create-quizz" onclick="createQuiz()">Criar
+                    Quizz</button>
             </article>
             <!-- User quizzes -->
             <section class="quizzes__user-quizzes">
                 <!-- Added with javaScript -->
-                
+
             </section>
         </div>
         <!-- All quizes -->
@@ -79,7 +81,7 @@
     <main class="page page-create-quiz hide">
         <div class="create-quiz">
             <!-- Basic info -->
-            <form onsubmit="ValidationBasicInfo()" id="basicInfoForm">
+            <form onsubmit="validationBasicInfo()" id="basicInfoForm">
                 <div class="create-quiz__basic-info">
                     <div class="create-quiz__page-title">
                         <p>Comece pelo começo</p>
@@ -87,13 +89,10 @@
                     <div class="create-quiz__info">
                         <input id="quizTitle" class="create-quiz__title-input input" type="text" required minlength="20"
                             maxlength="65" placeholder="Título do seu quizz" name="input">
-
                         <input id="quizImage" class="create-quiz__image-input input" required type="url"
                             placeholder="URL da imagem do seu quizz" name="input">
-
                         <input class="create-quiz__questions-qty-input  input" type="number" required min="3"
                             placeholder="Quantidade de perguntas do seu quizz" name="input" id="qInput">
-
                         <input class="create-quiz__levels-qty-input  input" type="number" required min="2"
                             placeholder="Quantidade de níveis do seu quizz" name="input" id="nInput">
                     </div>
@@ -107,26 +106,23 @@
                 <h2 class="create-quiz__page-title">
                     <p>Crie suas perguntas</p>
                 </h2>
-
-                <form onsubmit="ValidationQuestionCreation()" id="questionForm">
+                <form onsubmit="validationQuestionCreation()" id="questionForm">
                     <div>
                         <div id="questionContainer">
 
                         </div>
                         <!-- Button -->
-                        <button type="submit" class="create-quiz__button clickable">Prosseguir para criar níveis</button>
+                        <button type="submit" class="create-quiz__button clickable">Prosseguir para criar
+                            níveis</button>
                     </div>
                 </form>
-
             </div>
             <!-- Create levels -->
             <div class="create-quiz__create-levels hide">
                 <h2 class="create-quiz__page-title">
                     <p>Agora, decida os níveis!</p>
                 </h2>
-                <!-- Level 1 -->
-
-                <form onsubmit="ValidationLevelCreation()" id="levelForm">
+                <form onsubmit="validationLevelCreation()" id="levelForm">
                     <div>
                         <div id="levelContainer">
 
@@ -135,7 +131,6 @@
                         <button class="create-quiz__button" type="submit">Finalizar Quizz</button>
                     </div>
                 </form>
-
             </div>
             <!-- Quiz summary -->
             <div class="create-quiz__quiz-summary hide">
@@ -143,14 +138,12 @@
                     <p>Seu quizz está pronto!</p>
                 </h2>
                 <!-- Quiz card -->
-                <article class="create-quiz__quiz quiz">
-                    <img src="images/imagemteste.png" alt="Quiz image" class="quiz__image">
-                    <h3 class="quiz__title">Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
+                <article class="create-quiz__quiz quiz clickable">
                 </article>
                 <!-- Button -->
-                <button class="create-quiz__button create-quiz__button--acess-quiz" onclick="GotoCreantionEnd()">Acessar
+                <button class="create-quiz__button create-quiz__button--acess-quiz">Acessar
                     Quizz</button>
-                <p class="create-quiz__restart-home" onclick="goToHome()">Voltar pra home</p>
+                <p class="create-quiz__restart-home clickable" onclick="window.location.reload()">Voltar pra home</p>
             </div>
         </div>
     </main>

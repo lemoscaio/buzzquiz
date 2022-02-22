@@ -7,6 +7,7 @@ let counterAnswer = 0
 // 
 let quiz = null;
 let userQuizzes = [];
+let quizID = null;
 
 function getAllQuizzes() {
     let promise = axios.get(API_BUZZQUIZZ);
@@ -15,7 +16,7 @@ function getAllQuizzes() {
     showLoading("userQuizzes");
 
     // SetTimeout only for demonstration purposes (loading animation)
-    setTimeout(() => { promise.then(printAllQuizzes) }, 1500);
+    setTimeout(() => { promise.then(printAllQuizzes) }, 500);
 }
 
 function printAllQuizzes(response) {
@@ -97,11 +98,16 @@ function openQuiz(quiz) {
 
     // SetTimeout only for demonstration purposes (loading animation)
     let promise = axios.get(API_BUZZQUIZZ + `/${quizID}`);
-    setTimeout(() => { promise.then(displayQuiz) }, 500);
+    setTimeout(() => {
+        promise.then((response) => {
+            displayQuiz(response);
+            changePage("page-quizzes", "page-quiz");
+            changePage("page-create-quiz", "page-quiz");
+        })
+    }, 500);
 }
 
 function displayQuiz(response) {
-    changePage("page-quizzes", "page-quiz");
 
     hideLoadingPage();
     const quizPageEl = document.querySelector(".page-quiz");
@@ -133,6 +139,28 @@ function displayQuiz(response) {
     quizPageEl.innerHTML += templateQuizGeneralInfo;
 
     document.querySelector(".quiz__header").scrollIntoView(false);
+
+    const quizSummayEl = document.querySelector(".create-quiz__quiz-summary");
+    const quizBasicInfoEl = document.querySelector(".create-quiz__basic-info");
+    quizBasicInfoEl.classList.remove("hide");
+    quizSummayEl.classList.add("hide");
+}
+
+function openQuizFromButton(buttonEl) {
+    const quizCardEl = buttonEl.parentNode.querySelector(".create-quiz__quiz.quiz")
+
+    let quizID = quizCardEl.id;
+    showLoadingPage();
+
+    // SetTimeout only for demonstration purposes (loading animation)
+    let promise = axios.get(API_BUZZQUIZZ + `/${quizID}`);
+    setTimeout(() => {
+        promise.then((response) => {
+            displayQuiz(response);
+            changePage("page-quizzes", "page-quiz");
+            changePage("page-create-quiz", "page-quiz");
+        })
+    }, 500);
 }
 
 function clickCardAnswer(answer) {
@@ -170,7 +198,7 @@ function clickCardAnswer(answer) {
 
     // Calls the result function when counter gets to total of questions
     if (counterAnswer === totalQuestions) {
-        // Get the integer of the percentage
+        // Rounds the percentage
         let fixedPercentage = Math.ceil(correctAnswerPercentage);
         setTimeout(showResult, 500, fixedPercentage);
     }
@@ -267,11 +295,12 @@ function goToCreateLevels() {
 }
 
 function goToCreationEnd() {
+    showQuizSummary()
     document.querySelector(".create-quiz__create-levels").classList.add("hide");
     document.querySelector(".create-quiz__quiz-summary").classList.remove("hide");
 }
 
-// Impedir atualização automatica do forms
+// Prevents page reload
 function preventElements(event) {
     event.preventDefault();
 }
@@ -286,9 +315,7 @@ document.getElementById("levelForm").addEventListener("submit", function (event)
     event.preventDefault();
 })
 
-// rendezirando paginas dinamicas da Criação de quiz
-
-// Pagina de Questoes 
+// Page: create questions
 function createContainerQuestion() {
     let number = document.getElementById("qInput").value;
     let htmlResute = "";
@@ -340,7 +367,7 @@ function createContainerQuestion() {
     goToCreateQuestions();
 }
 
-// pagina de niveis
+// Page: create levels
 function createLevelQuiz() {
     let number = document.getElementById("nInput").value;
     let htmlResute = "";
@@ -370,8 +397,9 @@ function createLevelQuiz() {
 
     goToCreateLevels();
 }
-// função para enviar quizz ao servidor
+// Save and post Quiz
 function saveAndGoToEnd() {
+    quizID = null
     let questionNumber = document.getElementById("qInput").value;
     let levelNumber = document.getElementById("nInput").value;
     let quizTitle = document.getElementById("quizTitle").value;
@@ -379,7 +407,8 @@ function saveAndGoToEnd() {
 
     const questions = []
     const levels = []
-    // question post
+
+    // Questions
     for (let qIndex = 0; qIndex < questionNumber; qIndex++) {
         const title = document.getElementById(`title_${qIndex}`).value;
         const color = document.getElementById(`color_${qIndex}`).value;
@@ -420,7 +449,7 @@ function saveAndGoToEnd() {
 
         questions.push(question);
     }
-    //level post
+    // Levels
     for (let nIndex = 0; nIndex < levelNumber; nIndex++) {
         const level = {
             title: document.getElementById(`level-title_${nIndex}`).value,
@@ -431,7 +460,7 @@ function saveAndGoToEnd() {
 
         levels.push(level);
     }
-    // objeto a ser enviado
+    // Object to be posted
     const quiz = {
         title: quizTitle,
         image: quizImage,
@@ -445,13 +474,34 @@ function saveAndGoToEnd() {
             localStorage.setItem(response.data.id.toString(), quizInString);
             let secretKey = "id" + response.data.id.toString();
             localStorage.setItem(secretKey, response.data.key.toString());
+            quizID = response.data.id
             goToCreationEnd();
         }).catch((error) => {
             alert("Deu erro");
             console.log(error);
         });
 }
-// collapse
+
+function showQuizSummary() {
+    const quizCardEl = document.querySelector(".create-quiz__quiz.quiz");
+
+    quizCardEl.innerHTML = "";
+
+    let quizImage = document.querySelector("#quizImage").value;
+    let quizTitle = document.querySelector("#quizTitle").value;
+
+    quizCardEl.setAttribute("id", quizID);
+    quizCardEl.setAttribute("onclick", "openQuiz(this)");
+
+    let quizCardTemplate = `<img src="${quizImage}" alt="Quiz image" class="quiz__image">
+    <h3 class="quiz__title">${quizTitle}</h3>`;
+
+    quizCardEl.innerHTML += quizCardTemplate;
+
+    let accessQuizButtonEl = document.querySelector(".create-quiz__button--acess-quiz");
+    accessQuizButtonEl.setAttribute("onclick", "openQuizFromButton(this)");
+}
+
 function Collapse(indice, type) {
     console.log(indice, type);
     const item = document.getElementById(`${type}_item_${indice}`);
@@ -534,11 +584,11 @@ function hideLoadingCard(quizEl) {
 }
 
 function changePage(pageOut, pageIn) {
-    document.querySelector("." + pageOut).classList.toggle("hide");
-    document.querySelector("." + pageIn).classList.toggle("hide");
+    document.querySelector("." + pageOut).classList.add("hide");
+    document.querySelector("." + pageIn).classList.remove("hide");
 }
 
-// Validações
+// Form validations
 function validationQuizTitle() {
     const title = document.getElementById("quizTitle").value;
     if (title < 20 || title > 65) {
@@ -594,7 +644,7 @@ function validationColor() {
     return true;
 }
 
-function isValidURLimageQR() {
+function isValidRightQuestionImageURL() {
     let number = document.getElementById("qInput").value;
     for (i = 0; i < number; i++) {
         const url = document.getElementById(`right_answer_image_${i}`).value;
@@ -604,7 +654,7 @@ function isValidURLimageQR() {
     }
 }
 
-function isValidURLimageQW() {
+function isValidWrongQuestionImageURL() {
     let number = document.getElementById("qInput").value;
     for (i = 0; i < number; i++) {
         const url = document.getElementById(`wrong_answer_image_${i}`).value;
@@ -612,37 +662,20 @@ function isValidURLimageQW() {
         var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
         return (res !== null);
     }
-<<<<<<< HEAD
-=======
-   
- };
- function isValidURLimageN() {
+}
+
+function isValidImageLevelURL() {
     let number = document.getElementById("nInput").value
-    for (i = 0; i < number; i++){
-       const url = document.getElementById(`level-image_${i}`).value
+    for (i = 0; i < number; i++) {
+        const url = document.getElementById(`level-image_${i}`).value
 
-       var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-       return (res !== null)
-   }
-   
- };
-
-
-
-function ValidationBasicInfo() {
-    if (ValidationQuizTitle() && isValidURL() && ValidationNumber()) {
-        createContainerQuestion()
+        var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        return (res !== null)
     }
-    else {
-        alert("Erro!")
-    }
-
-
->>>>>>> 3fffce65f486b46834c45e961d37060f2f25f128
 }
 
 function validationQuestionCreation() {
-    if (validationQuestionTitle() && validationColor() && isValidURLimageQR() && isValidURLimageQW()) {
+    if (validationQuestionTitle() && validationColor() && isValidRightQuestionImageURL() && isValidWrongQuestionImageURL()) {
         createLevelQuiz();
     }
     else {
@@ -650,47 +683,13 @@ function validationQuestionCreation() {
     }
 }
 
-<<<<<<< HEAD
-function validationLevelTitle() {
-    let number = document.getElementById("nInput").value;
-    for (i = 0; i < number; i++) {
-        const title = document.getElementById(`level-title_${i}`).value;
-        if (title < 10) {
-            return false;
-        }
-    }
-    return true;
-}
-function validationLevelText() {
-    let number = document.getElementById("nInput").value;
-    for (i = 0; i < number; i++) {
-        const text = document.getElementById(`level-text_${i}`).value;
-        if (text < 30) {
-            return false;
-        }
-    }
-    return true;
-}
-function validationLevelValue() {
-    let number = document.getElementById("nInput").value;
-    const maxValue = document.getElementById(`level-minValue_${number - 1}`).value;
-    for (i = 0; i < number; i++) {
-        const minValue = document.getElementById(`level-minValue_${i}`).value;
-        if (minValue > 100 || maxValue !== 0) {
-            return false;
-        }
-    }
-    return true;
-=======
- function ValidationLevelCreation(){
-     if(isValidURLimageN() && ValidationLevelValue() && ValidationLeveltext() && ValidationLeveltitle()){
+function validationLevelCreation() {
+    if (isValidImageLevelURL()) {
         saveAndGoToEnd()
-     }
-     else{
-         alert("erro!")
-     }
-
->>>>>>> 3fffce65f486b46834c45e961d37060f2f25f128
+    }
+    else {
+        alert("erro!")
+    }
 }
 
 // initializing functions
