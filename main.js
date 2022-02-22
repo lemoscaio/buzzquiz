@@ -612,6 +612,33 @@ function isValidURLimageQW() {
         var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
         return (res !== null);
     }
+<<<<<<< HEAD
+=======
+   
+ };
+ function isValidURLimageN() {
+    let number = document.getElementById("nInput").value
+    for (i = 0; i < number; i++){
+       const url = document.getElementById(`level-image_${i}`).value
+
+       var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+       return (res !== null)
+   }
+   
+ };
+
+
+
+function ValidationBasicInfo() {
+    if (ValidationQuizTitle() && isValidURL() && ValidationNumber()) {
+        createContainerQuestion()
+    }
+    else {
+        alert("Erro!")
+    }
+
+
+>>>>>>> 3fffce65f486b46834c45e961d37060f2f25f128
 }
 
 function validationQuestionCreation() {
@@ -623,6 +650,7 @@ function validationQuestionCreation() {
     }
 }
 
+<<<<<<< HEAD
 function validationLevelTitle() {
     let number = document.getElementById("nInput").value;
     for (i = 0; i < number; i++) {
@@ -653,6 +681,16 @@ function validationLevelValue() {
         }
     }
     return true;
+=======
+ function ValidationLevelCreation(){
+     if(isValidURLimageN() && ValidationLevelValue() && ValidationLeveltext() && ValidationLeveltitle()){
+        saveAndGoToEnd()
+     }
+     else{
+         alert("erro!")
+     }
+
+>>>>>>> 3fffce65f486b46834c45e961d37060f2f25f128
 }
 
 // initializing functions
